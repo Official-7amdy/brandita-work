@@ -1085,7 +1085,8 @@ p{margin:0}
       if (reduced) { done(); return; }
       const y0 = dragY, a = detail.animate([{ transform: `translateY(${y0}px)` }, { transform: "translateY(100%)" }], { duration: 400, easing: "cubic-bezier(.4,0,.85,.6)", fill: "forwards" });
       const s = scrim.animate([{ opacity: getComputedStyle(scrim).opacity }, { opacity: 0 }], { duration: 400, fill: "forwards" });
-      a.onfinish = () => { done(); a.cancel(); s.cancel(); };
+      let fin = false; const finish = () => { if (fin) return; fin = true; done(); a.cancel(); s.cancel(); };
+      a.onfinish = finish; setTimeout(finish, 650); // never hang if the tab is hidden mid-animation
       return;
     }
     const done = () => { closing = false; detail.hidden = true; scrim.hidden = true; lenis && lenis.start(); document.documentElement.style.overflow = ""; playTween && playTween.kill();
