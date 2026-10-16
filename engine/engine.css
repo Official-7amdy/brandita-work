@@ -407,6 +407,19 @@ html.cx-curon,html.cx-curon *{cursor:none!important}
 .cx-miss.one{grid-template-columns:1fr;max-width:760px}
 .cx-miss.one b{font-size:clamp(22px,2.6vw,34px)}
 
+/* ── the next case ── */
+.cx .cx-nc{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 30px;align-items:end;width:100%;margin-block:clamp(60px,8vw,110px) 0;padding:clamp(26px,3.4vw,48px);border-radius:32px;
+  background:var(--nb);color:var(--nf);text-decoration:none;text-align:start;overflow:hidden;transition:transform .6s var(--ease)}
+.cx-nc .cx-k{grid-column:1/-1;color:color-mix(in srgb,var(--nf) 70%,transparent)}
+.cx-nc .cx-k::before{background:var(--na)}
+.nc-c{grid-column:1/-1;font-size:14px;font-weight:700;opacity:.75}
+.nc-t{font-size:clamp(26px,3.6vw,56px);font-weight:900;letter-spacing:-.04em;line-height:1;max-width:20ch}
+.nc-m{font-size:clamp(46px,6vw,104px);font-weight:900;letter-spacing:-.045em;line-height:.82;color:var(--na)}
+.nc-go{grid-column:1/-1;justify-self:start;margin-top:10px;display:inline-flex;padding:12px 20px;border-radius:999px;background:var(--nf);color:var(--nb);font-size:14.5px;font-weight:800;transition:transform .5s var(--ease)}
+@media (hover:hover) and (pointer:fine){.cx .cx-nc:hover{transform:translateY(-6px)}.cx-nc:hover .nc-go{transform:translateX(8px)}}
+.cx .cx-nc:active{transform:scale(.985)}
+@media (max-width:640px){.cx .cx-nc{grid-template-columns:1fr}}
+
 /* ── end ── */
 .cx-end{padding-block:clamp(90px,12vw,170px) clamp(60px,8vw,110px);border-top:1px solid var(--rule)}
 .cx-end h2{font-size:clamp(56px,11vw,190px);letter-spacing:-.045em;line-height:.86;font-weight:900}

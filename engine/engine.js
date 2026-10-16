@@ -253,7 +253,9 @@
   function end(c, opts) {
     const wa = "https://wa.me/201099307190?text=" + encodeURIComponent(`Hi Brandita, I read the ${c.real ? c.client : c.sector.toLowerCase() + " sample"} case and want to talk about my store.`);
     const tgt = opts.embed ? ' target="_top"' : "";
-    return `<section class="cx-end"><div class="cx-wrap"><span class="cx-k rv">Your turn</span>
+    const nx = opts.next, nextCard = nx ? `<div class="cx-wrap"><${opts.embed ? 'button type="button" data-nextcase' : `a href="${esc(nx.href)}"`} class="cx-nc rv" data-cursor="Next" style="--nb:${esc(nx.bg)};--nf:${esc(nx.fg)};--na:${esc(nx.accent)}">
+      <span class="cx-k">Next case</span><span class="nc-c">${esc(nx.title)}</span><b class="nc-t">${esc(nx.headline)}</b><span class="nc-m tnum">${esc(nx.metric)}</span><span class="nc-go" aria-hidden="true">Read it →</span></${opts.embed ? "button" : "a"}></div>` : "";
+    return `${nextCard}<section class="cx-end"><div class="cx-wrap"><span class="cx-k rv">Your turn</span>
       <h2 class="rv" style="margin-top:20px">Your number<br>is <em>next.</em></h2>
       <div class="row"><a class="book rv" data-cursor="Book" href="${esc(opts.bookUrl)}"${tgt}><span class="t">Book a free call<small>The audit comes first. The proposal comes after.</small></span><span class="ar" aria-hidden="true">${ARROW}</span></a>
         <nav class="cx-links rv" aria-label="More">${opts.next && !opts.embed ? `<a href="${esc(opts.next.href)}">Next case<span>${esc(opts.next.title)} →</span></a>` : ""}
@@ -447,6 +449,9 @@
         cur.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) scale(${(.12 + big * .88).toFixed(3)})`; lbl.style.opacity = big > .6 ? 1 : 0; requestAnimationFrame(loop); };
       requestAnimationFrame(loop);
     }
+
+    // the next case: inside the stories sheet it asks the page to turn to it
+    $$("[data-nextcase]").forEach(b => b.addEventListener("click", () => { try { parent.postMessage({ type: "brandita:next" }, "*"); } catch (_) {} }));
 
     // screenshots open in a lightbox; tap the image to zoom
     const lb = $(".cx-lb"), lbCap = $("p", lb), lbImg = document.createElement("img"); let from = null;

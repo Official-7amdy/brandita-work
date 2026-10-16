@@ -46,7 +46,8 @@ def logo(html):
 
 def page(c, engine_js, engine_css, logo_uri, nxt):
     opts = {"bookUrl": BOOK, "storiesUrl": STORIES, "logo": logo_uri,
-            "next": {"href": f"case-{nxt['id']}.html", "title": nxt["client"]} if nxt else None}
+            "next": {"href": f"case-{nxt['id']}.html", "title": nxt["client"], "headline": nxt["headline"], "metric": nxt["metric"]["value"],
+                     "bg": nxt["palette"]["bg"], "fg": nxt["palette"]["fg"], "accent": nxt["palette"]["accent"]} if nxt else None}
     data = json.dumps(c, ensure_ascii=False).replace("</", "<\\/")
     title = f"{c['client']} case study · Brandita"
     return f"""<meta charset="utf-8">
