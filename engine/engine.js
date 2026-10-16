@@ -106,12 +106,12 @@
             ${rows.map((r, k) => `<div class="run-col" data-k="${k}"><i class="sp" style="--h:${(r.spend / mx).toFixed(4)}"></i><i class="sa" style="--h:${(r.sales / mx).toFixed(4)}"></i><span>${esc(s.months[k])}</span></div>`).join("")}</div>
             <div class="run-key"><span><i style="background:var(--rule)"></i>Ad spend</span><span><i style="background:var(--ac)"></i>Sales</span></div></div>
         </div></div>
-        <div class="cx-wrap"><div class="cx-insight rv"><b class="tnum">${x1(S.salesX)}</b><p>${esc(s.monthsLong[S.peakI])} sales against ${esc(s.monthsLong[0])}, while ROAS stayed between ${S.roasMin.toFixed(2)}× and ${S.roasMax.toFixed(2)}× every month.<small>Computed from the case file.</small></p></div></div></section>`;
+        <div class="cx-wrap"><div class="cx-insight rv"><b class="tnum">${x1(S.salesX)}</b><p>${esc(s.monthsLong[S.peakI])} sales against ${esc(s.monthsLong[0])}, while ROAS stayed between ${S.roasMin.toFixed(2)}× and ${S.roasMax.toFixed(2)}× every month.<small>Computed from the case file.</small></p></div>${srcCards(c, "run", "The sheet these months come from")}</div></section>`;
     },
     work(c, R, i) {
       if (c.levers) return `<section class="cx-ch" id="work"><div class="cx-wrap">${head(i, "The work", `${c.levers.length} levers. Every one <em>tested.</em>`)}
         <p class="cx-lede rv" style="margin-bottom:28px">${R.levers.won} won, ${R.levers.miss} did not. Tap a card for what happened.</p>
-        <div class="cx-levers">${c.levers.map((l, k) => `<button class="lev rv ${l.status === "miss" ? "miss" : ""}" type="button" aria-expanded="false" aria-label="${esc(l.title)}: ${esc(l.stat)}">
+        <div class="cx-levers">${c.levers.map((l, k) => `<button data-cursor="Flip" class="lev rv ${l.status === "miss" ? "miss" : ""}" type="button" aria-expanded="false" aria-label="${esc(l.title)}: ${esc(l.stat)}">
           <span class="lev-in"><span class="lev-f"><span class="no" aria-hidden="true">${pad(k + 1)}</span>${l.status ? `<span class="won">${l.status === "won" ? "Worked" : "Did not work"}</span>` : ""}<h3>${esc(l.title)}</h3><span class="st">${esc(l.stat)}</span><span class="tap" aria-hidden="true">Tap to read</span></span>
           <span class="lev-b"><p>${esc(l.detail)}</p></span></span></button>`).join("")}</div></div></section>`;
       return `<section class="cx-ch" id="work"><div class="cx-wrap">${head(i, "The work", "Four stages, each with a <em>document.</em>")}
@@ -121,10 +121,10 @@
       const H = c.hooks, top = Math.max(...H.rows.map(r => r.rate));
       return `<section class="cx-ch" id="creative"><div class="cx-wrap">${head(i, "The creative", "Stories pulled people in. Hard selling <em>did not.</em>")}
         <div class="cx-insight rv" style="margin:0 0 30px"><b class="tnum">${Math.round(R.hooks.ratio)}×</b><p>more viewers held by story and curiosity videos (${R.hooks.moving.toFixed(1)}% average hook rate) than by hard-selling statics (${R.hooks.still.toFixed(2)}%).<small>Computed from the case file. ${esc(H.note)}</small></p></div>
-        <div class="reel">${H.rows.map(r => `<article class="ph ${r.static ? "still" : ""}"><div class="bar"><b></b></div><span class="dir">${esc(r.direction)}</span>
+        <div class="reel" data-cursor="Drag">${H.rows.map(r => `<article class="ph ${r.static ? "still" : ""}"><div class="bar"><b></b></div><span class="dir">${esc(r.direction)}</span>
           <p class="ar" lang="ar" dir="rtl">${esc(r.text)}</p><p class="en">${esc(r.en)} <i>(translated)</i></p><p class="vis">${esc(r.visual)}</p>
           <div class="meter"><span><i style="--w:${Math.max(.01, r.rate / top).toFixed(3)}"></i></span><b class="tnum">${r.rate.toFixed(2)}%</b></div></article>`).join("")}</div>
-        <p class="cx-src">Executions are illustrated from the real hooks; the hook rates are measured.</p></div></section>`;
+        <p class="cx-src">Executions are illustrated from the real hooks; the hook rates are measured.</p>${feed(c)}${srcCards(c, "creative", "How the creative was made")}</div></section>`;
     },
     evidence(c, R, i) {
       const tabs = [];
@@ -150,7 +150,7 @@
             <div><div class="ring" style="--p:${(avg / 100).toFixed(3)}"><b class="tnum">${Math.round(avg)}%<small>net profit / sales${R.quarters.flat ? ", every quarter" : ""}</small></b></div>
             <p class="cx-src" style="text-align:center">Sales grew ${x1(R.quarters.growth)} from ${esc(c.quarters[0].q)} to ${esc(c.quarters[c.quarters.length - 1].q)}. Computed from the case file.</p></div></div>`;
         }
-        if (c.totals) h += `<div class="cx-tot rv">${c.totals.map(t => `<div><b class="tnum">${esc(t.value)}</b><span>${esc(t.label)}</span></div>`).join("")}</div><p class="cx-src">${esc(c.totalsSource || "")}</p>`;
+        if (c.totals) h += `<div class="cx-tot rv">${c.totals.map(t => `<div><b class="tnum">${esc(t.value)}</b><span>${esc(t.label)}</span></div>`).join("")}</div><p class="cx-src">${esc(c.totalsSource || "")}</p>${srcCards(c, "result", "From Lazoomi's own books")}`;
       } else {
         h += head(i, "The result", "Same reporting source, before and <em>after.</em>");
         h += `<div class="cx-big tnum rv" data-count="${esc(c.metric.value)}">${esc(c.metric.value)}</div><p class="cx-lede rv" style="margin-bottom:36px">${esc(c.metric.label)}</p>
@@ -172,7 +172,8 @@
   /* the store dashboard, rebuilt from the analytics and the monthly sheet */
   function store(c) {
     const s = c.store, ser = c.series;
-    return `<div class="win sd" data-sd><div class="win-bar"><i></i><i></i><i></i><span>${esc(s.title)} · ${esc(s.name)}</span></div><div class="win-body">
+    const o = original(c, "store");
+    return `<div class="win sd" data-sd><div class="win-bar"><i></i><i></i><i></i><span>${esc(s.title)} · ${esc(s.name)}</span>${o ? o.tg : ""}</div><div class="win-body" data-pane="live">
       <div class="sd-top"><span class="sd-range">${CAL}${esc(s.period)}</span><span class="sd-store">All channels</span></div>
       <div class="sd-kpis">${s.kpis.map(k => `<div class="sd-kpi"><span>${esc(k.label)}</span><b class="tnum" data-count="${esc(k.value)}">${esc(k.value)}${k.delta ? `<em>${esc(k.delta)}</em>` : ""}</b></div>`).join("")}</div>
       <div class="sd-chart"><div class="sd-ctl">
@@ -180,19 +181,44 @@
           <div class="seg" data-range>${[["all", "All"], ["q2", "Q2"], ["q3", "Q3"], ["q4", "Q4"]].map(([k, t], j) => `<button type="button" data-q="${k}" aria-pressed="${j === 0}">${t}</button>`).join("")}</div></div>
         <div class="sd-head"><b class="tnum" data-sd="total"></b><span data-sd="cap"></span></div>
         <div class="sd-plot">${ser.rows.map((r, k) => `<div class="sd-bar" data-k="${k}" tabindex="0" role="button" aria-label="${esc(ser.monthsLong[k])}"><i></i><span>${esc(ser.months[k])}</span></div>`).join("")}<div class="sd-tip" role="status"></div></div>
-      </div><p class="win-src">${esc(s.source)}</p></div></div>`;
+      </div><p class="win-src">${esc(s.source)}</p></div>${o ? o.pane : ""}</div>`;
   }
   function ledger(c) {
     const a = c.adAccount, cols = [["name", "Campaign"], ["spend", "Amount spent"], ["purchases", "Purchases"], ["cpp", "Cost / purchase"], ["value", "Purchase value"], ["roas", "ROAS"], ["cvr", "CVR"], ["hook", "Hook rate"], ["start", "Started"]];
-    return `<div class="win"><div class="win-bar"><i></i><i></i><i></i><span>${esc(a.title)} · ${esc(c.client)} · ${a.campaigns} campaigns</span></div><div class="win-body">
+    const o = original(c, "ads");
+    return `<div class="win"><div class="win-bar"><i></i><i></i><i></i><span>${esc(a.title)} · ${esc(c.client)} · ${a.campaigns} campaigns</span>${o ? o.tg : ""}</div><div class="win-body" data-pane="live">
       <div class="ld-ctl"><span class="sd-range">${CAL}${esc(a.period)}</span><div class="seg" data-ldf><button type="button" data-f="all" aria-pressed="true">All</button><button type="button" data-f="on" aria-pressed="false">Active</button></div></div>
       <div class="ld-scroll"><table class="ld" data-ld><thead><tr>${cols.map(([k, t]) => `<th scope="col"><button type="button" data-k="${k}">${t}</button></th>`).join("")}</tr></thead><tbody></tbody>
         <tfoot><tr><td>All ${a.campaigns} campaigns</td><td>${money(a.totals.spend)}</td><td>${n0(a.totals.purchases)}</td><td>EGP ${a.totals.cpp.toFixed(2)}</td><td>${money(a.totals.value)}</td><td>${a.totals.roas.toFixed(2)}</td><td>${a.totals.cvr.toFixed(2)}%</td><td>${a.totals.hook.toFixed(2)}%</td><td></td></tr></tfoot></table></div>
-      <p class="win-src">${esc(a.note)}</p></div></div>`;
+      <p class="win-src">${esc(a.note)}</p></div>${o ? o.pane : ""}</div>`;
+  }
+  // evidence placed in the chapter it supports ("place" in the case file)
+  const byPlace = (c, p) => (c.evidence || []).map((e, k) => [e, k]).filter(([e]) => e.place === p);
+  function srcCards(c, p, label) {
+    const items = byPlace(c, p).filter(([e]) => e.kind !== "ad"); if (!items.length) return "";
+    const rot = [-1.6, 1.3, -.7];
+    return `<div class="srcs rv"><span class="cx-k">${esc(label)}</span><div class="srcs-row">${items.map(([e, k], j) => `<button class="src" type="button" data-shot="${k}" data-cursor="Open" style="--r:${rot[j % 3]}deg" aria-label="Open: ${esc(e.title)}">
+      <span class="win-bar"><i></i><i></i><i></i><span>${esc(e.title)}</span></span><img src="img/${esc(e.file)}" alt="${esc(e.title)}: ${esc(e.caption)}" loading="lazy">
+      <span class="cap">${esc(e.caption)}${e.hide && e.hide.length ? ` · ${e.hide.length} ${e.hide.length > 1 ? "areas" : "area"} hidden` : ""}</span></button>`).join("")}</div></div>`;
+  }
+  // a real ad, shown the way people saw it: in a phone, in the feed
+  function feed(c) {
+    const ad = (c.evidence || []).map((e, k) => [e, k]).find(([e]) => e.kind === "ad"); if (!ad) return "";
+    const [e, k] = ad;
+    return `<div class="feed rv"><div class="feed-l"><button class="phone" type="button" data-shot="${k}" data-cursor="Open" aria-label="Open the ad: ${esc(e.title)}"><span class="notch" aria-hidden="true"></span><img src="img/${esc(e.file)}" alt="${esc(e.title)}: ${esc(e.caption)}" loading="lazy"></button></div>
+      <div class="feed-t"><span class="cx-k">${esc(e.title)}</span><p class="feed-cap">${esc(e.caption)}</p><p class="feed-en">“${esc(e.en)}” <i>(translated)</i></p>
+        ${(e.notes || []).map(([h, d]) => `<p class="feed-n"><b>${esc(h)}</b> ${esc(d)}</p>`).join("")}</div></div>`;
+  }
+  // a rebuilt window can flip to the screenshot it was rebuilt from
+  function original(c, p) {
+    const it = byPlace(c, p)[0]; if (!it) return null; const [e, k] = it;
+    return { tg: `<span class="win-tg" role="group" aria-label="View"><button type="button" data-v="live" aria-pressed="true">Rebuilt</button><button type="button" data-v="orig" aria-pressed="false">Original</button></span>`,
+      pane: `<div class="win-orig" data-pane="orig" hidden><button class="wo" type="button" data-shot="${k}" data-cursor="Zoom" aria-label="Open the original screenshot"><img src="img/${esc(e.file)}" alt="${esc(e.title)}: ${esc(e.caption)}" loading="lazy"></button>
+        <p class="win-src">${esc(e.title)}, ${esc(e.caption)}.${e.hide && e.hide.length ? " Names and IDs hidden." : ""}</p></div>` };
   }
   function wall(c) {
     const rot = [-2.2, 1.6, -1.1, 2.4, -1.8, 1.2];
-    return `<div class="wall">${c.evidence.map((e, k) => `<button class="shot" type="button" data-shot="${k}" style="--r:${rot[k % rot.length]}deg" aria-label="Open screenshot: ${esc(e.title)}">
+    return `<div class="wall">${c.evidence.map((e, k) => `<button class="shot" type="button" data-cursor="Open" data-shot="${k}" style="--r:${rot[k % rot.length]}deg" aria-label="Open screenshot: ${esc(e.title)}">
       <div class="win-bar"><i></i><i></i><i></i><span>${esc(e.title)}</span></div><img src="img/${esc(e.file)}" alt="${esc(e.title)}: ${esc(e.caption)}" loading="lazy">
       <figcaption><b>${esc(e.title)}</b>${esc(e.caption)}${e.hide && e.hide.length ? `<span class="hid">${e.hide.length} ${e.hide.length > 1 ? "areas" : "area"} hidden</span>` : ""}</figcaption></button>`).join("")}</div>`;
   }
@@ -202,7 +228,7 @@
     const tgt = opts.embed ? ' target="_top"' : "";
     return `<section class="cx-end"><div class="cx-wrap"><span class="cx-k rv">Your turn</span>
       <h2 class="rv" style="margin-top:20px">Your number<br>is <em>next.</em></h2>
-      <div class="row"><a class="book rv" href="${esc(opts.bookUrl)}"${tgt}><span class="t">Book a free call<small>The audit comes first. The proposal comes after.</small></span><span class="ar" aria-hidden="true">${ARROW}</span></a>
+      <div class="row"><a class="book rv" data-cursor="Book" href="${esc(opts.bookUrl)}"${tgt}><span class="t">Book a free call<small>The audit comes first. The proposal comes after.</small></span><span class="ar" aria-hidden="true">${ARROW}</span></a>
         <nav class="cx-links rv" aria-label="More">${opts.next && !opts.embed ? `<a href="${esc(opts.next.href)}">Next case<span>${esc(opts.next.title)} →</span></a>` : ""}
           <a href="${esc(opts.storiesUrl)}"${tgt}>All case stories<span>Back to the stories →</span></a><a href="${wa}" target="_blank" rel="noopener">WhatsApp us<span>+20 109 930 7190 →</span></a></nav></div>
     </div></section>`;
@@ -332,6 +358,30 @@
       $$("th button", ld).forEach(b => b.addEventListener("click", () => { if (key === b.dataset.k) dir = -dir; else { key = b.dataset.k; dir = key === "name" ? 1 : -1; } draw(); }));
       $$("[data-ldf] button", root).forEach(b => b.addEventListener("click", () => { only = b.dataset.f === "on"; $$("[data-ldf] button", root).forEach(x => x.setAttribute("aria-pressed", String(x === b))); draw(); }));
       draw();
+    }
+
+    // rebuilt / original
+    $$(".win-tg").forEach(g => g.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; const w = g.closest(".win");
+      $$("button", g).forEach(x => x.setAttribute("aria-pressed", String(x === b))); $('[data-pane="live"]', w).hidden = b.dataset.v !== "live"; $('[data-pane="orig"]', w).hidden = b.dataset.v !== "orig"; }));
+
+    // the hook reel scrolls by dragging with a mouse, with a little momentum
+    $$(".reel").forEach(r => { let d = null;
+      r.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse") return; d = { x: e.clientX, s: r.scrollLeft, v: 0, t: performance.now() }; r.classList.add("drag"); });
+      addEventListener("pointermove", e => { if (!d) return; const now = performance.now(), nx = d.s - (e.clientX - d.x); d.v = (nx - r.scrollLeft) / Math.max(1, now - d.t); d.t = now; r.scrollLeft = nx; });
+      addEventListener("pointerup", () => { if (!d) return; let v = d.v * 16; d = null; r.classList.remove("drag");
+        const glide = () => { if (Math.abs(v) < .5 || reduced) return; r.scrollLeft += v; v *= .92; requestAnimationFrame(glide); }; glide(); }); });
+
+    // the cursor: a red dot that grows into a label over things you can act on (fine pointers only)
+    if (matchMedia("(hover:hover) and (pointer:fine)").matches && !reduced) {
+      const cur = document.createElement("div"); cur.className = "cx-cur"; cur.setAttribute("aria-hidden", "true"); cur.innerHTML = "<span></span>";
+      document.body.append(cur); document.documentElement.classList.add("cx-curon");
+      const lbl = cur.firstChild; let x = -100, y = -100, tx = -100, ty = -100, big = 0, tb = 0, on = false;
+      addEventListener("pointermove", e => { if (e.pointerType !== "mouse") return; tx = e.clientX; ty = e.clientY; if (!on) { on = true; x = tx; y = ty; cur.style.opacity = 1; }
+        const t = e.target.closest && e.target.closest("[data-cursor]"), l = t ? t.dataset.cursor : ""; tb = l ? 1 : 0; if (l && lbl.textContent !== l) lbl.textContent = l; }, { passive: true });
+      document.addEventListener("pointerleave", () => { on = false; cur.style.opacity = 0; });
+      const loop = () => { x += (tx - x) * .28; y += (ty - y) * .28; big += (tb - big) * .2;
+        cur.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) scale(${(.12 + big * .88).toFixed(3)})`; lbl.style.opacity = big > .6 ? 1 : 0; requestAnimationFrame(loop); };
+      requestAnimationFrame(loop);
     }
 
     // screenshots open in a lightbox; tap the image to zoom

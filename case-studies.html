@@ -112,7 +112,8 @@ p{margin:0}
   .tabbar.light .blob{background:#0B0B0B}
   .tabbar .blob{position:absolute;z-index:0;left:0;top:6px;bottom:6px;width:0;border-radius:999px;background:var(--fg);transform-origin:50% 50%;will-change:transform,width}
 }
-.cursor{position:fixed;left:0;top:0;z-index:95;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--red);pointer-events:none;opacity:0;display:grid;place-items:center}
+html.cur,html.cur *{cursor:none!important}
+.cursor{position:fixed;left:0;top:0;z-index:95;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;background:var(--red);pointer-events:none;opacity:0;display:grid;place-items:center;will-change:transform}
 .cursor span{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#fff;opacity:0;white-space:nowrap}
 @media not ((hover:hover) and (pointer:fine)){.cursor{display:none}}
 
@@ -501,41 +502,114 @@ p{margin:0}
 .lb p{color:#fff;font-size:14px;margin-top:12px;text-align:center}
 .lb button{position:absolute;top:18px;right:18px;width:46px;height:46px;border-radius:50%;background:#fff;color:#111;font-size:22px;font-weight:700}
 
-/* ── all work: a profile grid of story covers ──────────────────────────── */
-.all{background:var(--paper);color:var(--p-fg);padding-block:clamp(90px,12vw,170px);--fg:var(--p-fg);--mute:var(--p-mute);--rule:var(--p-rule)}
-.all .label::before{background:var(--red)}
-.all .h2 em{color:var(--red)}
-.all .head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,52px)}
+/* ── the index ─────────────────────────────────────────────────────────── */
+.ix{position:relative;background:var(--paper);color:var(--p-fg);padding-block:clamp(90px,12vw,170px);--fg:var(--p-fg);--mute:var(--p-mute);--rule:var(--p-rule)}
+.ix .label::before{background:var(--red)}
+.ix .h2 em{color:var(--red)}
+.ix-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,48px)}
+.ix-head .lede{max-width:42ch}
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
 .filters button{border:1px solid var(--p-rule);border-radius:999px;padding:9px 16px;font-size:13px;font-weight:600;color:var(--p-mute);transition:background-color .3s ease,color .3s ease,border-color .3s ease}
 .filters button[aria-pressed="true"]{background:var(--p-fg);color:var(--paper);border-color:var(--p-fg)}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.tile{display:flex;flex-direction:column;text-align:start;border-radius:26px;overflow:hidden;background:#fff;border:1px solid var(--p-rule);transition:transform .5s var(--ease)}
-.tile .cover{position:relative;aspect-ratio:1/1;background:var(--bg);color:var(--fg);padding:22px;display:flex;flex-direction:column;gap:12px;overflow:hidden;container-type:inline-size}
-.tile .ck{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
-.tile .ch{font-size:7.6cqw;font-weight:900;letter-spacing:-.04em;line-height:1;max-width:15ch;transition:transform .7s var(--ease)}
-.tile .cm{margin-top:auto;font-size:21cqw;font-weight:900;letter-spacing:-.045em;line-height:.82;color:var(--ac);transform-origin:0 100%;transition:transform .7s var(--ease)}
-.tile .pl{position:absolute;right:16px;top:16px;width:46px;height:46px;border-radius:50%;background:var(--ac);color:var(--ai);display:grid;place-items:center;transform:scale(.82);transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
-.tile .pl svg{width:18px;height:18px;margin-left:2px}
-@media (hover:hover) and (pointer:fine){.tile:hover{transform:translateY(-6px) rotate(-.6deg)}.tile:hover .pl{transform:scale(1.08)}.tile:hover .cm{transform:scale(1.06)}}
-.tile .txt{padding:14px 18px 18px;display:flex;flex-direction:column;gap:8px}
-.tile .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.tile .ml{font-size:13.5px;font-weight:600;color:var(--p-mute)}
-.tile .chip{color:var(--p-mute);border-color:var(--p-rule)}
-.tile .chip.real{border-color:var(--red);color:var(--p-fg)}
-@media (max-width:1000px){.grid{grid-template-columns:1fr 1fr}}
-@media (max-width:620px){.tile .cover{aspect-ratio:4/5}.grid{gap:10px}.tile{border-radius:18px}.tile .cover{padding:14px}.tile .txt{padding:10px 12px 12px}.tile .row .chip:first-child{display:none}.tile .pl{width:36px;height:36px;right:10px;top:10px}}
+.ix-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--p-fg)}
+.ixr{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;border-bottom:1px solid var(--p-rule);isolation:isolate}
+.ixr::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--bg);transform:scaleY(0);transform-origin:50% 100%;transition:transform .55s var(--ease)}
+.ixb{display:grid;grid-template-columns:52px minmax(0,1fr) minmax(0,1.5fr) auto auto;gap:clamp(12px,2vw,28px);align-items:center;padding:clamp(18px,2.2vw,28px) 14px;text-align:start;color:var(--p-fg);transition:color .4s ease,transform .55s var(--ease)}
+.ix-n{font-size:12px;font-weight:800;color:var(--p-mute)}
+.ix-c b{display:block;font-size:clamp(20px,2.2vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.05}
+.ix-c small{display:block;font-size:12.5px;font-weight:600;color:var(--p-mute);margin-top:4px;transition:color .4s ease}
+.ix-t{font-size:clamp(14px,1.2vw,16px);font-weight:600;line-height:1.35;color:var(--p-mute);transition:color .4s ease}
+.ix-m{font-size:clamp(28px,3.4vw,52px);font-weight:900;letter-spacing:-.045em;line-height:.9;min-width:3.6ch;text-align:end}
+.ix-s{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--p-rule);border-radius:999px;padding:4px 9px;white-space:nowrap;color:var(--p-mute)}
+.ix-s.real{border-color:var(--red);color:var(--p-fg)}
+.ix-play{width:46px;height:46px;margin-right:12px;border-radius:50%;border:1px solid var(--p-rule);display:grid;place-items:center;color:var(--p-fg);transition:transform .5s cubic-bezier(.34,1.56,.64,1),border-color .3s ease,color .3s ease}
+.ix-play svg{width:15px;height:15px;margin-left:2px}
+.ixr[hidden]{display:none}
+@media (hover:hover) and (pointer:fine){
+  .ixr:hover::before{transform:scaleY(1)}
+  .ixr:hover .ixb{color:var(--fg2);transform:translateX(12px)}
+  .ixr:hover .ix-c small,.ixr:hover .ix-t,.ixr:hover .ix-n{color:color-mix(in srgb,var(--fg2) 72%,transparent)}
+  .ixr:hover .ix-m{color:var(--ac)}
+  .ixr:hover .ix-s{border-color:color-mix(in srgb,var(--fg2) 40%,transparent);color:var(--fg2)}
+  .ixr:hover .ix-play{transform:scale(1.12);border-color:var(--fg2);color:var(--fg2)}
+}
+.ix-peek{position:fixed;left:0;top:0;z-index:60;width:280px;aspect-ratio:4/5;border-radius:22px;overflow:hidden;pointer-events:none;opacity:0;transform:translate3d(-50%,-50%,0) scale(.6);will-change:transform,opacity}
+.ix-peek .pc{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;gap:10px;background:var(--bg);color:var(--fg2)}
+.ix-peek .ck{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.ix-peek .ch{font-size:24px;font-weight:900;letter-spacing:-.035em;line-height:1}
+.ix-peek .cm{margin-top:auto;font-size:68px;font-weight:900;letter-spacing:-.045em;line-height:.82;color:var(--ac)}
+@media (max-width:900px){
+  .ixb{grid-template-columns:30px minmax(0,1fr) auto;row-gap:6px;padding:18px 6px}
+  .ix-t{grid-column:2/-1;grid-row:2;font-size:13.5px}
+  .ix-s{display:none}
+  .ix-c b::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--bg);margin-right:8px;vertical-align:2px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+  .ix-play{width:40px;height:40px;margin-right:4px}
+}
 .all-note{font-size:12.5px;color:var(--p-mute);margin-top:20px}
 
-/* ── method + close ────────────────────────────────────────────────────── */
-.method{padding-block:clamp(90px,12vw,170px)}
-.steps6{position:relative;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px;margin-top:clamp(40px,6vw,80px);padding-top:34px}
-.steps6::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--rule)}
-.steps6 .fill{position:absolute;left:0;right:0;top:0;height:2px;background:var(--red-hi);transform-origin:0 50%;transform:scaleX(0)}
-.st .n{font-size:13px;font-weight:800;color:var(--red-hi)}
-.st h4{font-size:20px;letter-spacing:-.02em;margin-top:8px}
-.st p{font-size:14px;color:var(--mute);margin-top:6px}
-@media (max-width:1000px){.steps6{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 18px}}
+/* ── the real file ─────────────────────────────────────────────────────── */
+.file{position:relative;overflow:hidden;background:#E8A33D;color:#1F1712;padding-block:clamp(90px,12vw,170px);--fg:#1F1712;--mute:rgba(31,23,18,.68);--rule:rgba(31,23,18,.2)}
+.file .label{color:rgba(31,23,18,.7)}
+.file .label::before{background:#1F1712}
+.file .h2 em{color:#fff}
+.file-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,5vw,90px);align-items:center}
+.file-nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:clamp(26px,4vw,44px)}
+.file-nums div{border-top:2px solid #1F1712;padding-top:10px}
+.file-nums b{display:block;font-size:clamp(30px,3.6vw,56px);font-weight:900;letter-spacing:-.045em;line-height:.9}
+.file-nums span{display:block;font-size:12.5px;font-weight:600;color:rgba(31,23,18,.72);margin-top:6px}
+.file-toc{list-style:none;margin:clamp(26px,4vw,44px) 0 0;padding:0;columns:2;column-gap:24px}
+.file-toc button{display:flex;gap:12px;align-items:baseline;width:100%;padding:9px 0;border-bottom:1px solid rgba(31,23,18,.18);font-size:15px;font-weight:700;text-align:start;transition:padding-left .4s var(--ease)}
+.file-toc button span{font-size:11.5px;font-weight:800;opacity:.6}
+@media (hover:hover) and (pointer:fine){.file-toc button:hover{padding-left:8px}}
+.file-open{margin-top:clamp(24px,3vw,36px);display:inline-flex;align-items:center;gap:12px;padding:8px 8px 8px 24px;border-radius:999px;background:#1F1712;color:#F7ECDD;font-size:16px;font-weight:800;transition:transform .16s var(--ease)}
+.file-open i{width:44px;height:44px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;transition:transform .55s var(--ease)}
+.file-open svg{width:17px;height:17px}
+.file-open:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.file-open:hover i{transform:rotate(45deg)}}
+.file-r{position:relative;height:clamp(380px,46vw,620px)}
+.fw{position:absolute;margin:0;border-radius:16px;overflow:hidden;background:#fff;border:1px solid rgba(31,23,18,.18);will-change:transform}
+.fw .fb{display:flex;align-items:center;gap:6px;padding:9px 12px;background:#ececec;border-bottom:1px solid #dcdcdc;font-size:11.5px;font-weight:700;color:#555}
+.fw .fb i{width:9px;height:9px;border-radius:50%;background:#cfcfcf}
+.fw img{display:block;width:100%;height:auto;background:#fff}
+.fw.w1{width:78%;left:0;top:4%;transform:rotate(-4deg)}
+.fw.w2{width:72%;right:0;top:38%;transform:rotate(3deg)}
+.fw.w3{width:46%;left:14%;bottom:0;transform:rotate(-2deg)}
+@media (max-width:900px){.file-in{grid-template-columns:1fr}.file-r{height:clamp(300px,90vw,460px)}.file-toc{columns:1}}
+
+/* ── the method journey ────────────────────────────────────────────────── */
+.method{position:relative;padding-block:clamp(70px,8vh,110px) clamp(50px,6vh,90px);overflow:hidden}
+.mj{position:relative;margin-top:clamp(26px,4vh,56px)}
+.mj-track{display:flex;gap:clamp(14px,1.6vw,22px);padding-inline:var(--gut);will-change:transform}
+.mjc{flex:0 0 clamp(280px,30vw,420px);min-height:min(clamp(300px,34vw,400px),calc(100svh - 330px));border-radius:28px;border:1px solid var(--rule);background:var(--ink-2);padding:clamp(22px,2.4vw,32px);display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+.mjc .n{font-size:clamp(64px,7vw,116px);font-weight:900;letter-spacing:-.045em;line-height:.78;color:transparent;-webkit-text-stroke:1.5px #4a464d}
+.mjc h3{font-size:clamp(24px,2.4vw,34px);letter-spacing:-.03em;margin-top:auto}
+.mjc p{font-size:15px;color:var(--mute);margin:0}
+.mjc .ev{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:8px;padding:14px 16px;border-radius:16px;background:rgba(232,163,61,.12);border:1px solid rgba(232,163,61,.35);text-align:start;color:var(--fg);transition:background-color .3s ease,transform .16s var(--ease)}
+.mjc .ev small{display:block;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#E8A33D}
+.mjc .ev b{display:block;font-size:14.5px;font-weight:700;margin-top:3px}
+.mjc .ev i{flex:none;width:34px;height:34px;border-radius:50%;background:#E8A33D;color:#1F1712;display:grid;place-items:center}
+.mjc .ev svg{width:14px;height:14px}
+.mjc .ev:active{transform:scale(.98)}
+@media (hover:hover) and (pointer:fine){.mjc .ev:hover{background:rgba(232,163,61,.22)}}
+.mj-line{height:2px;background:var(--rule);margin:clamp(26px,3vw,40px) var(--gut) 0;overflow:hidden}
+.mj-line i{display:block;height:100%;background:var(--red-hi);transform-origin:0 50%;transform:scaleX(0)}
+@media (max-width:900px){.mj-track{overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:8px}.mj-track::-webkit-scrollbar{display:none}.mjc{scroll-snap-align:start;flex-basis:82vw}}
+/* which leak is yours */
+.pick{margin-top:clamp(36px,5vw,64px);padding:clamp(22px,3vw,40px);border-radius:28px;border:1px solid var(--rule);background:var(--ink-2)}
+.pick-q{font-size:clamp(22px,2.4vw,34px);font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.pick-opts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.pick-opts button{padding:12px 18px;border-radius:999px;border:1px solid var(--rule);font-size:14.5px;font-weight:700;color:var(--fg);transition:background-color .3s ease,color .3s ease,border-color .3s ease,transform .16s var(--ease)}
+.pick-opts button:active{transform:scale(.96)}
+.pick-opts button[aria-pressed="true"]{background:var(--fg);color:var(--ink);border-color:var(--fg)}
+.pick-out:not(:empty){margin-top:22px}
+.pick-out .lead{font-size:14.5px;color:var(--mute);margin-bottom:14px}
+.pick-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px}
+.pk{display:flex;flex-direction:column;gap:8px;min-height:170px;padding:18px;border-radius:20px;background:var(--bg);color:var(--fg2);text-align:start;transition:transform .5s var(--ease)}
+.pk .ck{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.pk .ch{font-size:16.5px;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.pk .cm{margin-top:auto;font-size:40px;font-weight:900;letter-spacing:-.045em;line-height:.85;color:var(--ac)}
+.pk .go{font-size:12px;font-weight:800;opacity:.75}
+@media (hover:hover) and (pointer:fine){.pk:hover{transform:translateY(-6px) rotate(-.6deg)}}
 .close{padding-top:clamp(90px,12vw,170px);border-top:1px solid var(--rule)}
 .close h2{font-size:clamp(60px,12vw,210px);letter-spacing:-.045em;line-height:.86;font-weight:900}
 .close h2 em{font-style:normal;color:var(--red-hi)}
@@ -633,26 +707,45 @@ p{margin:0}
   </div>
 </section>
 
-<!-- ── all work ───────────────────────────────────────────────────────── -->
-<section class="all" id="all">
+<!-- ── the index: every file, one line each ───────────────────────────── -->
+<section class="ix" id="all" data-tone="light">
   <div class="wrap">
-    <div class="head">
-      <div><span class="label">All work</span><h2 class="h2 split" style="margin-top:14px">Every file, at a <em>glance.</em></h2></div>
-      <p class="lede" style="max-width:40ch">Lazoomi is a real client with real numbers. The other files are samples that show the format, each marked until a client signs off on being named.</p>
+    <div class="ix-head">
+      <div><span class="label">All work</span><h2 class="h2 split" style="margin-top:14px">Nine files. Read each one<br>like a <em>story.</em></h2></div>
+      <p class="lede">One real client, Lazoomi, with real numbers. Eight samples that show the format until clients sign off on being named. Point at a file to preview it; open it to read the whole thing.</p>
     </div>
     <div class="filters" id="filters" role="group" aria-label="Filter by service"></div>
-    <div class="grid" id="grid"></div>
+    <ol class="ix-list" id="ixList"></ol>
     <p class="all-note">Sample files carry placeholder figures. Brandita publishes a client's name and numbers only after written sign-off.</p>
+  </div>
+  <div class="ix-peek" id="ixPeek" aria-hidden="true"></div>
+</section>
+
+<!-- ── the real file: a teaser that opens Lazoomi at any chapter ───────── -->
+<section class="file" id="file" data-tone="light">
+  <div class="wrap file-in">
+    <div class="file-l">
+      <span class="label">The real file</span>
+      <h2 class="h2 split" style="margin-top:14px">Open the Lazoomi file. Start at any <em>chapter.</em></h2>
+      <div class="file-nums" id="fileNums"></div>
+      <ol class="file-toc" id="fileToc"></ol>
+      <button class="file-open" type="button" id="fileOpen" data-cursor="Open">Open the full file <i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></i></button>
+    </div>
+    <div class="file-r" aria-hidden="true">
+      <figure class="fw w1"><span class="fb"><i></i><i></i><i></i>Store analytics</span><img src="img/lazoomi-shopify.png" alt="" loading="lazy"></figure>
+      <figure class="fw w2"><span class="fb"><i></i><i></i><i></i>Monthly operations sheet</span><img src="img/lazoomi-monthly-table.png" alt="" loading="lazy"></figure>
+      <figure class="fw w3"><span class="fb"><i></i><i></i><i></i>A live ad</span><img src="img/lazoomi-ad-post.png" alt="" loading="lazy"></figure>
+    </div>
   </div>
 </section>
 
-<!-- ── method ─────────────────────────────────────────────────────────── -->
+<!-- ── the method: a journey where each stage opens its evidence ──────── -->
 <section class="method" id="method">
   <div class="wrap">
-    <span class="label">The method</span>
-    <h2 class="h2 split" style="margin-top:14px">Every case runs the same six <em>stages.</em></h2>
-    <div class="steps6" id="steps6"><span class="fill" id="stepsFill"></span></div>
+    <span class="label">How a file gets made</span>
+    <h2 class="h2 split" style="margin-top:14px">Six stages. Each one leaves <em>evidence.</em></h2>
   </div>
+  <div class="mj" id="mj"><div class="mj-track" id="mjTrack"></div><div class="mj-line"><i id="mjFill"></i></div></div>
 </section>
 
 <!-- ── close ──────────────────────────────────────────────────────────── -->
@@ -660,6 +753,11 @@ p{margin:0}
   <div class="wrap">
     <span class="label">Your turn</span>
     <h2 class="split" style="margin-top:20px">Your number<br>is <em>next.</em></h2>
+    <div class="pick" id="pick">
+      <p class="pick-q">Where is your store losing orders?</p>
+      <div class="pick-opts" id="pickOpts" role="group" aria-label="Pick the closest problem"></div>
+      <div class="pick-out" id="pickOut" aria-live="polite"></div>
+    </div>
     <div class="row2">
       <div class="bk">
         <p class="lede">It starts the way Lazoomi's did: an audit of your ad account and your store, and the leak counted in orders a month, before any proposal.</p>
@@ -856,14 +954,34 @@ p{margin:0}
       ${art}<text x="60" y="590" font-family="Inter, sans-serif" font-weight="900" font-size="190" letter-spacing="-8" fill="${fg}">${c.metric}</text></svg>`;
   }
 
-  /* ══ the grid (story covers), filters, method ═══════════════════════ */
+  /* ══ the index, the real file, the method journey, the chooser ═══════ */
+  const ARR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>';
   const lines = ["All", ...new Set(CASES.map(c => c.line))];
   $("#filters").innerHTML = lines.map((l, i) => `<button type="button" data-f="${l}" aria-pressed="${i === 0}">${l}</button>`).join("");
-  $("#grid").innerHTML = CASES.map((c, i) => { const [bg, fg, ac, ai] = PAL[c.id];
-    return `<button class="tile" type="button" data-i="${i}" data-line="${c.line}" data-cursor="Play" aria-label="Play the ${c.client} story: ${c.title}">
-    <span class="cover" style="--bg:${bg};--fg:${fg};--ac:${ac};--ai:${ai}"><span class="ck">${c.client}</span><span class="ch">${c.title}</span><span class="cm tnum">${c.metric}</span><span class="pl" aria-hidden="true">${ICON.play}</span></span>
-    <span class="txt"><span class="row"><span class="chip">${pad(i + 1)} · ${c.line}</span>${c.real ? '<span class="chip real">Real client</span>' : '<span class="chip smp">Sample</span>'}</span><span class="ml">${c.mlabel}</span></span></button>`; }).join("");
-  $("#steps6").insertAdjacentHTML("beforeend", STAGES.map(([t, d], i) => `<div class="st"><span class="n tnum">${pad(i + 1)}</span><h4>${t}</h4><p>${d}</p></div>`).join(""));
+  $("#ixList").innerHTML = CASES.map((c, i) => { const [bg, fg, ac] = PAL[c.id];
+    return `<li class="ixr" data-i="${i}" data-line="${c.line}" style="--bg:${bg};--fg2:${fg};--ac:${ac}">
+      <button class="ixb" type="button" data-cursor="Open" aria-label="Open the full case: ${c.client}, ${c.title}">
+        <span class="ix-n tnum">${pad(i + 1)}</span><span class="ix-c"><b>${c.client}</b><small>${c.real ? c.sector + " · " : ""}${c.line}</small></span>
+        <span class="ix-t">${c.title}</span><span class="ix-m tnum">${c.metric}</span><span class="ix-s${c.real ? " real" : ""}">${c.real ? "Real client" : "Sample"}</span></button>
+      <button class="ix-play" type="button" data-cursor="Play" aria-label="Play the ${c.client} story">${ICON.play}</button></li>`; }).join("");
+
+  // the real file: what the engine computes from Lazoomi's numbers, and its chapters
+  { const R = LZ.rows, first = R[0], spendX = Math.max(...R.map(r => r[1])) / first[1], salesX = Math.max(...R.map(r => r[3])) / first[3];
+    const mv = LZ.hooks.filter(h => !h[4]), st = LZ.hooks.filter(h => h[4]), avg = a => a.reduce((s, h) => s + h[3], 0) / a.length, ratio = avg(mv) / avg(st);
+    $("#fileNums").innerHTML = [[spendX.toFixed(1) + "×", "monthly ad spend, March to its peak"], [salesX.toFixed(1) + "×", "monthly sales, March to November"], [Math.round(ratio) + "×", "more viewers held by story hooks than statics"]]
+      .map(([v, l]) => `<div><b class="tnum">${v}</b><span>${l}</span></div>`).join("");
+    $("#fileToc").innerHTML = [["brief", "The brief"], ["before", "Before"], ["run", "The run, month by month"], ["work", "Nine levers"], ["creative", "The creative"], ["evidence", "The evidence"], ["result", "The result"], ["miss", "What did not work"]]
+      .map(([k, t], j) => `<li><button type="button" data-ch="${k}" data-cursor="Read"><span class="tnum">${pad(j + 1)}</span>${t}</button></li>`).join(""); }
+
+  // the method: each stage, with the place in the Lazoomi file that shows it
+  const PROOF = [["brief", "165 campaigns, an ad account and a store, read first"], ["before", "Six problems found before a single change"], ["work", "Nine levers, each with a test"],
+    ["creative", "Nine hooks tested, story against hard selling"], ["run", "Ten months, ROAS never under 4.32×"], ["result", "15% net margin, every quarter"]];
+  $("#mjTrack").innerHTML = STAGES.map(([t, d], i) => `<article class="mjc"><span class="n tnum" aria-hidden="true">${pad(i + 1)}</span><h3>${t}</h3><p>${d}</p>
+    <button class="ev" type="button" data-ch="${PROOF[i][0]}" data-cursor="Read"><span><small>In the Lazoomi file</small><b>${PROOF[i][1]}</b></span><i aria-hidden="true">${ARR}</i></button></article>`).join("");
+
+  // which leak is yours: the closest files, then the call
+  const LEAKS = [["Ads cost more than they return", "Performance"], ["Visitors come, but do not buy", "Commerce tech"], ["Followers never message", "Social"], ["Nobody finds us on search", "SEO & content"], ["Our brand looks different everywhere", "Brand"]];
+  $("#pickOpts").innerHTML = LEAKS.map(([t, l]) => `<button type="button" data-line="${l}" aria-pressed="false">${t}</button>`).join("");
 
   /* ══ stories: the frames of every case, written from the case data ══ */
   const W = s => s.split(/\s+/).map(w => `<span class="w">${w}</span>`).join(" ");
@@ -933,9 +1051,9 @@ p{margin:0}
   let dI = -1, dFrom = null;
   /* the full case is built by the case engine (case-<id>.html) and loaded into the sheet */
   let playTween = null;
-  function detailHTML(i) {
+  function detailHTML(i, ch) {
     const c = CASES[i];
-    return `<iframe class="dframe" src="case-${c.id}.html?embed=1" title="${c.client}: full case" style="background:${PAL[c.id][0]}"></iframe><div class="dload" aria-hidden="true"><span></span></div>`;
+    return `<iframe class="dframe" src="case-${c.id}.html?embed=1${ch ? "#" + ch : ""}" title="${c.client}: full case" style="background:${PAL[c.id][0]}"></iframe><div class="dload" aria-hidden="true"><span></span></div>`;
   }
   function wireDetail(i) {
     const c = CASES[i], fr = dBody.querySelector(".dframe");
@@ -953,11 +1071,11 @@ p{margin:0}
   const scrim = $("#scrim"), SHEET = "cubic-bezier(.32,.72,0,1)", isPhone = () => matchMedia("(max-width: 900px)").matches;
   let closing = false, dragY = 0;
   try { history.scrollRestoration = "manual"; } catch (_) {}
-  function openDetail(i, from, swap) {
+  function openDetail(i, from, swap, ch) {
     dI = i; if (from) dFrom = from;
     const go = () => {
       if (hasGsap) ScrollTrigger.getAll().filter(s => s.scroller === detail).forEach(s => s.kill());
-      dBody.innerHTML = detailHTML(i); detail.scrollTop = 0; wireDetail(i);
+      dBody.innerHTML = detailHTML(i, ch); detail.scrollTop = 0; wireDetail(i);
       if (!detail.dataset.opening) try { history.replaceState(history.state, "", "#" + CASES[i].id); } catch (_) {}
     };
     if (swap && hasGsap && !reduced) { gsap.to(dBody, { opacity: 0, y: -20, duration: .3, onComplete: () => { go(); ScrollTrigger.refresh(); gsap.fromTo(dBody, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .6, ease: "expo.out" }); } }); return; }
@@ -1027,7 +1145,31 @@ p{margin:0}
   $("#lbX").addEventListener("click", lbClose); lb.addEventListener("click", e => { if (e.target === lb) lbClose(); });
 
   // grid plays that case's story
-  $("#grid").addEventListener("click", e => { const t = e.target.closest(".tile"); if (t) playCase(+t.dataset.i); });
+  // the index: open the case, or play its story; a preview card follows the pointer
+  $("#ixList").addEventListener("click", e => { const r = e.target.closest(".ixr"); if (!r) return; const i = +r.dataset.i;
+    if (e.target.closest(".ix-play")) playCase(i); else openDetail(i, r.querySelector(".ixb")); });
+  $$("[data-ch]").forEach(b => b.addEventListener("click", () => openDetail(0, b, false, b.dataset.ch)));
+  $("#fileOpen").addEventListener("click", e => openDetail(0, e.currentTarget));
+  $("#pickOpts").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
+    $$("#pickOpts button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    const hits = CASES.map((c, i) => [c, i]).filter(([c]) => c.line === b.dataset.line).sort((a, z) => (z[0].real ? 1 : 0) - (a[0].real ? 1 : 0)).slice(0, 3);
+    $("#pickOut").innerHTML = `<p class="lead">The closest file${hits.length > 1 ? "s" : ""} to yours. Read one, then book the audit for your own store.</p>
+      <div class="pick-cards">${hits.map(([c, i]) => { const [bg, fg, ac] = PAL[c.id]; return `<button class="pk" type="button" data-i="${i}" data-cursor="Open" style="--bg:${bg};--fg2:${fg};--ac:${ac}">
+        <span class="ck">${c.client}${c.real ? "" : " · sample"}</span><span class="ch">${c.title}</span><span class="cm tnum">${c.metric}</span><span class="go">Open the file →</span></button>`; }).join("")}</div>`;
+    if (hasGsap && !reduced) gsap.from("#pickOut .pk", { y: 30, opacity: 0, duration: .7, stagger: .08, ease: "expo.out" }); });
+  $("#pickOut").addEventListener("click", e => { const b = e.target.closest(".pk"); if (b) openDetail(+b.dataset.i, b); });
+  { const peek = $("#ixPeek"), list = $("#ixList");
+    if (matchMedia("(hover:hover) and (pointer:fine)").matches && !reduced) {
+      let x = 0, y = 0, tx = 0, ty = 0, on = 0, ton = 0, raf = 0, cur = -1;
+      const loop = () => { x += (tx - x) * .14; y += (ty - y) * .14; on += (ton - on) * .16; const v = (x - tx) * -.04;
+        peek.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) translate(-50%,-50%) rotate(${Math.max(-8, Math.min(8, v)).toFixed(2)}deg) scale(${(.6 + on * .4).toFixed(3)})`;
+        peek.style.opacity = on.toFixed(3); raf = (Math.abs(on - ton) > .002 || Math.abs(tx - x) > .3) ? requestAnimationFrame(loop) : 0; };
+      list.addEventListener("pointermove", e => { tx = e.clientX + 170; ty = e.clientY; const r = e.target.closest(".ixr"); ton = r ? 1 : 0;
+        if (r && +r.dataset.i !== cur) { cur = +r.dataset.i; const c = CASES[cur], [bg, fg, ac] = PAL[c.id];
+          peek.innerHTML = `<div class="pc" style="--bg:${bg};--fg2:${fg};--ac:${ac}"><span class="ck">${c.client}</span><span class="ch">${c.title}</span><span class="cm tnum">${c.metric}</span></div>`; }
+        if (!raf) raf = requestAnimationFrame(loop); });
+      list.addEventListener("pointerleave", () => { ton = 0; cur = -1; if (!raf) raf = requestAnimationFrame(loop); });
+    } }
 
   // copy + WhatsApp
   $$("button.copy").forEach(b => { const o = b.textContent; b.addEventListener("click", async () => { try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = "Copied"; }
@@ -1233,11 +1375,12 @@ p{margin:0}
   function navTone() {
     const s = stage.getBoundingClientRect(), solid = s.bottom < 72, n = $(".nav"), y = scrollY, dy = y - lastNY;
     if (Math.abs(dy) > 4) { n.classList.toggle("hide", dy > 0 && y > innerHeight * .9); lastNY = y; }
+    const lightAt = yy => $$('[data-tone="light"]').some(el => { const r = el.getBoundingClientRect(); return r.top <= yy && r.bottom >= yy; });
     let light = stage.classList.contains("lite");
-    if (solid) { const a = $("#all").getBoundingClientRect(); light = a.top <= 34 && a.bottom >= 34; }
+    if (solid) light = lightAt(34);
     n.classList.toggle("solid", solid); n.classList.toggle("light", light);
-    const by = innerHeight - 40, al = $("#all").getBoundingClientRect();
-    $("#tabbar").classList.toggle("light", (al.top <= by && al.bottom >= by) || (s.top <= by && s.bottom >= by && stage.classList.contains("lite")));
+    const by = innerHeight - 40;
+    $("#tabbar").classList.toggle("light", lightAt(by) || (s.top <= by && s.bottom >= by && stage.classList.contains("lite")));
     document.documentElement.style.setProperty("--gx", (30 + Math.sin(scrollY / 260) * 38).toFixed(1) + "%");
   }
   addEventListener("scroll", navTone, { passive: true });
@@ -1302,22 +1445,23 @@ p{margin:0}
   if (!reduced) {
     $$(".split").forEach(h => SplitText.create(h, { type: "lines", mask: "lines", autoSplit: true,
       onSplit: self => gsap.from(self.lines, { yPercent: 105, duration: 1.1, ease: "expo.out", stagger: .1, scrollTrigger: { trigger: h, start: "top 85%" } }) }));
-    gsap.from(".tile", { y: 60, opacity: 0, duration: .9, stagger: .07, ease: "expo.out", scrollTrigger: { trigger: "#grid", start: "top 85%" } });
-    gsap.from(".st", { y: 30, opacity: 0, duration: .8, stagger: .08, ease: "power3.out", scrollTrigger: { trigger: "#steps6", start: "top 85%" } });
-    gsap.to("#stepsFill", { scaleX: 1, ease: "none", scrollTrigger: { trigger: "#steps6", start: "top 80%", end: "bottom 50%", scrub: true } });
+    gsap.from(".ixr", { y: 40, opacity: 0, duration: .9, stagger: .06, ease: "expo.out", scrollTrigger: { trigger: "#ixList", start: "top 85%" } });
+    gsap.from("#fileNums > div, #fileToc li, #fileOpen", { y: 26, opacity: 0, duration: .8, stagger: .05, ease: "expo.out", scrollTrigger: { trigger: "#file", start: "top 70%" } });
+    [[".fw.w1", -70, -4], [".fw.w2", 50, 3], [".fw.w3", -30, -2]].forEach(([s, d, r]) => gsap.fromTo(s, { y: d * -1, rotation: r * 2 }, { y: d, rotation: r, ease: "none", scrollTrigger: { trigger: "#file", start: "top bottom", end: "bottom top", scrub: true } }));
+    gsap.from(".mjc", { y: 60, opacity: 0, duration: .9, stagger: .08, ease: "expo.out", scrollTrigger: { trigger: "#mj", start: "top 85%" } });
     gsap.from(cube, { y: 90, rotationX: -16, opacity: 0, duration: 1.4, ease: "expo.out", delay: .1 });
     gsap.from(".bub", { scale: .3, opacity: 0, duration: .9, stagger: .05, ease: "back.out(2.2)", delay: .25 });
     gsap.from(".side.l > *, .side.r > *", { y: 30, opacity: 0, duration: 1, stagger: .07, ease: "power3.out", delay: .3 });
-  } else $("#stepsFill").style.transform = "scaleX(1)";
+  } else $("#mjFill").style.transform = "scaleX(1)";
 
   // filter with Flip
   $("#filters").addEventListener("click", e => {
     const b = e.target.closest("button"); if (!b) return;
     $$("#filters button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
-    const tiles = $$("#grid .tile"), state = Flip.getState(tiles);
+    const tiles = $$("#ixList .ixr"), state = Flip.getState(tiles);
     tiles.forEach(t => { t.hidden = !(b.dataset.f === "All" || t.dataset.line === b.dataset.f); });
     if (reduced) return;
-    Flip.from(state, { duration: .7, ease: "power3.inOut", absolute: true, onEnter: els => gsap.fromTo(els, { opacity: 0, scale: .94 }, { opacity: 1, scale: 1, duration: .6 }), onLeave: els => gsap.to(els, { opacity: 0, scale: .94, duration: .3 }) });
+    Flip.from(state, { duration: .6, ease: "power3.inOut", absolute: false, onEnter: els => gsap.fromTo(els, { opacity: 0, scale: .94 }, { opacity: 1, scale: 1, duration: .6 }), onLeave: els => gsap.to(els, { opacity: 0, scale: .94, duration: .3 }) });
   });
 
   // nav: which view is on screen
@@ -1333,21 +1477,28 @@ p{margin:0}
     mg.addEventListener("pointerleave", () => { mx(0); my(0); });
     const cu = $("#cursor"), cl = $("#cursorLabel"), cx = gsap.quickTo(cu, "x", { duration: .25, ease: "power3" }), cy = gsap.quickTo(cu, "y", { duration: .25, ease: "power3" });
     let shown = false;
+    if (matchMedia("(hover:hover) and (pointer:fine)").matches) { document.documentElement.classList.add("cur"); gsap.set(cu, { scale: .12 }); }
+    const hideCur = () => { shown = false; gsap.to(cu, { opacity: 0, duration: .2, overwrite: "auto" }); };
+    document.addEventListener("pointerover", e => { if (e.target.tagName === "IFRAME") hideCur(); });
+    document.documentElement.addEventListener("pointerleave", hideCur);
     addEventListener("pointermove", e => {
       if (e.pointerType !== "mouse") return;
-      if (!shown) { shown = true; gsap.set(cu, { x: e.clientX, y: e.clientY }); gsap.to(cu, { opacity: 1, duration: .3 }); }
+      if (!shown) { shown = true; gsap.set(cu, { x: e.clientX, y: e.clientY }); gsap.to(cu, { opacity: 1, duration: .3, overwrite: "auto" }); }
       cx(e.clientX); cy(e.clientY);
       let label = "";
       if (cube.contains(e.target) && !e.target.closest("a, button")) { const r = cube.getBoundingClientRect(); label = held ? "" : e.clientX - r.left < r.width * .3 ? "Back" : "Next"; }
       else { const t = e.target.closest && e.target.closest("[data-cursor]"); label = t ? t.dataset.cursor : ""; }
       if (label && cl.textContent !== label) cl.textContent = label;
-      gsap.to(cu, { width: label ? 84 : 10, height: label ? 84 : 10, marginLeft: label ? -42 : -5, marginTop: label ? -42 : -5, duration: .35, ease: "power3.out", overwrite: "auto" });
+      gsap.to(cu, { scale: label ? 1 : .12, duration: .35, ease: "power3.out" });
       gsap.to(cl, { opacity: label ? 1 : 0, duration: .2, overwrite: "auto" });
     }, { passive: true });
   }
 
   const mm = gsap.matchMedia();
   mm.add("(min-width: 901px) and (prefers-reduced-motion: no-preference)", () => {
+    const tr = $("#mjTrack"), dist = () => Math.max(0, tr.scrollWidth - innerWidth);
+    gsap.to(tr, { x: () => -dist(), ease: "none", scrollTrigger: { trigger: "#method", start: "top top", end: () => "+=" + dist(), pin: true, scrub: .6, invalidateOnRefresh: true, refreshPriority: 1,
+      onUpdate: s => { $("#mjFill").style.transform = `scaleX(${s.progress.toFixed(4)})`; } } });
     const lenisRaf = t => lenis && lenis.raf(t * 1000);
     if (window.Lenis) { lenis = new Lenis({ lerp: .09, smoothWheel: true }); lenis.on("scroll", ScrollTrigger.update); gsap.ticker.add(lenisRaf); gsap.ticker.lagSmoothing(0); }
     return () => { gsap.ticker.remove(lenisRaf); if (lenis) { lenis.destroy(); lenis = null; } };
