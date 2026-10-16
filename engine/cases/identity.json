@@ -1,0 +1,59 @@
+{
+  "id": "identity",
+  "real": false,
+  "approved": false,
+  "type": "service",
+  "client": "Specialty coffee",
+  "sector": "Specialty coffee",
+  "line": "Brand",
+  "palette": {
+    "bg": "#1E4D36",
+    "fg": "#F3E7CF",
+    "accent": "#E4B860",
+    "onAccent": "#1E1A10"
+  },
+  "headline": "Three logos, four greens, and a menu nobody could read from the queue",
+  "metric": {
+    "value": "+2.1×",
+    "label": "Branded search volume"
+  },
+  "leak": "Each branch had built its own signage. Customers did not recognise the second branch as the same company.",
+  "sub": "One mark, one green, one menu system read at four metres. The rollout was the job.",
+  "steps": [
+    [
+      "Intake",
+      "Every sign and cup photographed."
+    ],
+    [
+      "Diagnose",
+      "Eleven brand variants counted."
+    ],
+    [
+      "Produce",
+      "One system, tested at queue distance."
+    ],
+    [
+      "Report",
+      "Branded search tracked monthly."
+    ]
+  ],
+  "compare": [
+    [
+      "Brand variants in use",
+      11,
+      "11",
+      1,
+      "1",
+      12
+    ],
+    [
+      "Branded searches (index)",
+      100,
+      "100",
+      210,
+      "210",
+      220
+    ]
+  ],
+  "miss": "The new cup added a cost nobody had budgeted. Branches used old stock for a quarter."
+}
