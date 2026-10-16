@@ -372,7 +372,8 @@
         "value": "3.61%"
       }
     ],
-    "source": "Rebuilt from the store's analytics. Monthly bars use the operations sheet, March to December 2025."
+    "source": "Rebuilt by Brandita, not a live view. KPI cards: the store's Shopify analytics, Mar 1, 2025 to Jun 29, 2026, compared to the previous period. Charts and table: Lazoomi's monthly operations sheet, March to December 2025.",
+    "platform": "Shopify"
   },
   "adAccount": {
     "title": "Ad account",

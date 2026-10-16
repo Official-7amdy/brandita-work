@@ -169,19 +169,46 @@
     }
   };
 
-  /* the store dashboard, rebuilt from the analytics and the monthly sheet */
+  /* the store dashboard: an analytics admin rebuilt from the store's export (KPIs)
+     and the monthly operations sheet (charts, table). Layout follows the store
+     platform's admin; no platform logo, and labelled as rebuilt. */
+  const IC = {
+    Home: "M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1z", Orders: "M4 6h16v12H4zM4 13h4l1.5 2h5L16 13h4",
+    Products: "M12.6 3.6 20 11a1.4 1.4 0 0 1 0 2l-7 7a1.4 1.4 0 0 1-2 0L3.6 12.6A2 2 0 0 1 3 11.2V5a2 2 0 0 1 2-2h6.2a2 2 0 0 1 1.4.6zM7.5 7.5h.01",
+    Customers: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20a7.5 7.5 0 0 1 15 0", Content: "M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6",
+    Analytics: "M5 20V11M10 20V5M15 20v-6M20 20V9", Marketing: "M4 10v4h3l6 4V6L7 10zM17 9.5a3.5 3.5 0 0 1 0 5", Discounts: "M8 16 16 8M8.5 8.5h.01M15.5 15.5h.01M12 3l2.2 2.2H17v2.8L19.2 10 17 12.2V15h-2.8L12 17.2 9.8 15H7v-2.8L4.8 10 7 7.8V5h2.8z" };
+  const SV = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
   function store(c) {
-    const s = c.store, ser = c.series;
-    const o = original(c, "store");
-    return `<div class="win sd" data-sd><div class="win-bar"><i></i><i></i><i></i><span>${esc(s.title)} · ${esc(s.name)}</span>${o ? o.tg : ""}</div><div class="win-body" data-pane="live">
-      <div class="sd-top"><span class="sd-range">${CAL}${esc(s.period)}</span><span class="sd-store">All channels</span></div>
-      <div class="sd-kpis">${s.kpis.map(k => `<div class="sd-kpi"><span>${esc(k.label)}</span><b class="tnum" data-count="${esc(k.value)}">${esc(k.value)}${k.delta ? `<em>${esc(k.delta)}</em>` : ""}</b></div>`).join("")}</div>
-      <div class="sd-chart"><div class="sd-ctl">
-          <div class="seg" data-metric>${[["sales", "Sales"], ["orders", "Orders"], ["spend", "Ad spend"], ["roas", "ROAS"], ["cpp", "Cost / purchase"]].map(([k, t], j) => `<button type="button" data-m="${k}" aria-pressed="${j === 0}">${t}</button>`).join("")}</div>
-          <div class="seg" data-range>${[["all", "All"], ["q2", "Q2"], ["q3", "Q3"], ["q4", "Q4"]].map(([k, t], j) => `<button type="button" data-q="${k}" aria-pressed="${j === 0}">${t}</button>`).join("")}</div></div>
-        <div class="sd-head"><b class="tnum" data-sd="total"></b><span data-sd="cap"></span></div>
-        <div class="sd-plot">${ser.rows.map((r, k) => `<div class="sd-bar" data-k="${k}" tabindex="0" role="button" aria-label="${esc(ser.monthsLong[k])}"><i></i><span>${esc(ser.months[k])}</span></div>`).join("")}<div class="sd-tip" role="status"></div></div>
-      </div><p class="win-src">${esc(s.source)}</p></div>${o ? o.pane : ""}</div>`;
+    const s = c.store, ser = c.series, o = original(c, "store"), ini = s.name.split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase();
+    const spark = { "Total sales": "sales", "Orders": "orders" };
+    const chart = (key, label, extra) => `<div class="sx-chart ${extra || ""}" data-chart="${key}" role="img" aria-label="${esc(label)}, ${esc(ser.months[0])} to ${esc(ser.months[ser.months.length - 1])} ${ser.year}">
+      <div class="sx-y"></div><svg viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true"><g class="gr"></g><path class="ar"/><path class="ln"/></svg>
+      <i class="sx-cross"></i><i class="sx-dot"></i><div class="sx-x"></div><div class="sx-tip" role="status"></div></div>`;
+    return `<div class="win sx" data-sd><div class="sx-strip"><span>${esc(s.title)} · rebuilt from the store's ${esc(s.platform || "")} analytics</span>${o ? o.tg : ""}</div>
+      <div class="sx-app" data-pane="live">
+        <div class="sx-top"><span class="sx-mk" aria-hidden="true">${esc(ini[0])}</span><span class="sx-search">${SV("M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4")}<span>Search</span><kbd>Ctrl K</kbd></span>
+          <span class="sx-me"><i>${esc(ini)}</i><span>${esc(s.name)}</span></span></div>
+        <div class="sx-frame">
+          <nav class="sx-nav" aria-label="Store admin (rebuilt, not interactive)">${Object.keys(IC).map(k => `<span class="${k === "Analytics" ? "on" : ""}">${SV(IC[k])}${k}</span>`).join("")}</nav>
+          <div class="sx-main">
+            <div class="sx-h"><b>Analytics</b><span class="sx-chip">${CAL}${esc(s.period)}</span><span class="sx-chip ghost">Compared to the previous period</span></div>
+            <div class="sx-kpis">${s.kpis.map(k => `<div class="sx-kpi"><span class="sx-kl">${esc(k.label)}</span><b class="tnum" data-count="${esc(k.value)}">${esc(k.value)}</b>
+              ${k.delta ? `<span class="sx-up">${SV("M7 17 17 7M9 7h8v8")}${esc(k.delta.replace("+", ""))}</span>` : ""}
+              ${spark[k.label] ? `<svg class="sx-spark" viewBox="0 0 100 30" preserveAspectRatio="none" data-spark="${spark[k.label]}" aria-hidden="true"><path/></svg>` : ""}</div>`).join("")}</div>
+            <div class="sx-bar"><span>Charts: monthly, from the operations sheet</span>
+              <div class="sx-pick"><button class="sx-btn" type="button" aria-haspopup="true" aria-expanded="false">${CAL}<span data-sx="range">${esc(ser.months[0])}–${esc(ser.months[ser.months.length - 1])} ${ser.year}</span>${SV("M7 10l5 5 5-5")}</button>
+                <div class="sx-menu" role="menu" hidden>${[["all", `${ser.months[0]}–${ser.months[ser.months.length - 1]} ${ser.year}`], ["q2", `Q2 ${ser.year}`], ["q3", `Q3 ${ser.year}`], ["q4", `Q4 ${ser.year}`]].map(([k, t]) => `<button type="button" role="menuitemradio" data-q="${k}" aria-checked="${k === "all"}">${t}</button>`).join("")}</div></div></div>
+            <div class="sx-grid">
+              <section class="sx-card sx-wide"><header><span class="sx-ct">Total sales over time</span>
+                <div class="sx-seg" role="group" aria-label="Metric">${[["sales", "Total sales"], ["orders", "Orders"], ["aov", "Average order value"]].map(([k, t], j) => `<button type="button" data-m="${k}" aria-pressed="${j === 0}">${t}</button>`).join("")}</div></header>
+                <b class="sx-big tnum" data-sx="main"></b>${chart("main", "Monthly total")}</section>
+              <section class="sx-card"><header><span class="sx-ct">Average order value over time</span></header><b class="sx-big sm tnum" data-sx="aov"></b>${chart("aov", "Average order value", "sm")}</section>
+              <section class="sx-card"><header><span class="sx-ct">Orders over time</span></header><b class="sx-big sm tnum" data-sx="orders"></b>${chart("orders", "Orders", "sm")}</section>
+              <section class="sx-card sx-wide"><header><span class="sx-ct">Sales by month</span></header><div class="sx-tw"><table class="sx-t" data-sxt><thead><tr>
+                ${[["k", "Month"], ["orders", "Orders"], ["sales", "Total sales"], ["aov", "Average order value"], ["mom", "Orders vs. prior month"]].map(([k, t]) => `<th scope="col"><button type="button" data-k="${k}">${t}</button></th>`).join("")}</tr></thead><tbody></tbody></table></div></section>
+            </div>
+            <p class="sx-src">${esc(s.source)}</p>
+          </div></div></div>${o ? o.pane : ""}</div>`;
   }
   function ledger(c) {
     const a = c.adAccount, cols = [["name", "Campaign"], ["spend", "Amount spent"], ["purchases", "Purchases"], ["cpp", "Cost / purchase"], ["value", "Purchase value"], ["roas", "ROAS"], ["cvr", "CVR"], ["hook", "Hook rate"], ["start", "Started"]];
@@ -317,30 +344,67 @@
     tabs.forEach((t, k) => { t.tabIndex = k ? -1 : 0; t.addEventListener("click", () => pick(t));
       t.addEventListener("keydown", e => { if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return; const nx = tabs[(k + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length]; pick(nx); nx.focus(); }); });
 
-    // store dashboard: metric and range, bars with a tooltip
+    // store dashboard: line charts with a crosshair, a range menu, a metric switch, a sortable table
     const sd = $("[data-sd]");
     if (sd && c.series) {
-      const s = c.series, rows = s.rows, bars = $$(".sd-bar", sd), tip = $(".sd-tip", sd), Q = { all: [0, 99], q2: [1, 3], q3: [4, 6], q4: [7, 9] };
-      let m = "sales", q = "all";
-      const fmtM = (k, v) => k === "orders" ? n0(v) : k === "roas" ? v.toFixed(2) + "×" : k === "cpp" ? s.currency + " " + Math.round(v) : money(v, s.currency);
-      const draw = () => {
-        const [a, b] = Q[q], inR = j => j >= a && j <= b, vals = rows.map(r => r[m]), mx = Math.max(...vals);
-        bars.forEach((el, j) => { el.classList.toggle("dim", !inR(j)); el.querySelector("i").style.transform = `scaleY(${(vals[j] / mx).toFixed(4)})`; });
-        const sel = rows.filter((r, j) => inR(j)), tot = m === "roas" ? sel.reduce((t, r) => t + r.sales, 0) / sel.reduce((t, r) => t + r.spend, 0)
-          : m === "cpp" ? sel.reduce((t, r) => t + r.spend, 0) / sel.reduce((t, r) => t + r.orders, 0) : sel.reduce((t, r) => t + r[m], 0);
-        $('[data-sd="total"]', sd).textContent = fmtM(m, tot);
-        $('[data-sd="cap"]', sd).textContent = (m === "roas" ? "blended, " : m === "cpp" ? "average, " : "total, ") + (q === "all" ? `${s.months[0]}–${s.months[s.months.length - 1]} ${s.year}` : q.toUpperCase() + " " + s.year);
-      };
-      const show = el => { const j = +el.dataset.k, r = el.getBoundingClientRect(), pr = $(".sd-plot", sd).getBoundingClientRect(), h = el.querySelector("i").getBoundingClientRect();
-        tip.innerHTML = `${esc(s.monthsLong[j])} ${s.year}<small>${esc(fmtM(m, rows[j][m]))}</small>`; tip.style.left = (r.left - pr.left + r.width / 2) + "px"; tip.style.top = (h.top - pr.top - 8) + "px"; tip.style.opacity = 1;
-        bars.forEach(x => x.classList.toggle("on", x === el)); };
-      bars.forEach(el => { el.addEventListener("pointerenter", () => show(el)); el.addEventListener("focus", () => show(el)); el.addEventListener("click", () => show(el)); });
-      $(".sd-plot", sd).addEventListener("pointerleave", () => { tip.style.opacity = 0; bars.forEach(x => x.classList.remove("on")); });
-      $$("[data-metric] button", sd).forEach(b => b.addEventListener("click", () => { m = b.dataset.m; $$("[data-metric] button", sd).forEach(x => x.setAttribute("aria-pressed", String(x === b))); tip.style.opacity = 0; draw(); }));
-      $$("[data-range] button", sd).forEach(b => b.addEventListener("click", () => { q = b.dataset.q; $$("[data-range] button", sd).forEach(x => x.setAttribute("aria-pressed", String(x === b))); tip.style.opacity = 0; draw(); }));
-      bars.forEach(el => { el.querySelector("i").style.transform = "scaleY(0)"; });
-      const sdIo = "IntersectionObserver" in window ? new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { draw(); sdIo.disconnect(); } }) : null;
-      sdIo ? sdIo.observe(sd) : draw();
+      const s = c.series, cur = s.currency, Q = { all: [0, s.rows.length - 1], q2: [1, 3], q3: [4, 6], q4: [7, 9] };
+      const rows = s.rows.map((r, k) => ({ k, mo: s.monthsLong[k], short: s.months[k], orders: r.orders, sales: r.sales, aov: r.aov, mom: k ? (r.orders / s.rows[k - 1].orders - 1) * 100 : null }));
+      const F = { sales: v => cur + " " + n0(v), orders: v => n0(v), aov: v => cur + " " + v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) };
+      const short = { sales: v => money(v, cur), orders: v => n0(v), aov: v => cur + " " + Math.round(v) };
+      let q = "all", m = "sales";
+      const yTicks = mx => { const mag = Math.pow(10, Math.floor(Math.log10(mx))), step = Math.ceil(mx / 2 / mag) * mag; return [0, step, step * 2]; };
+      function draw(box, key) {
+        const [a, b] = Q[q], sel = rows.slice(a, b + 1), vals = sel.map(r => r[key]), ticks = yTicks(Math.max(...vals)), top = ticks[2], n = vals.length;
+        const X = i => n === 1 ? 300 : (i / (n - 1)) * 600, Y = v => 196 - (v / top) * 186;
+        const pts = vals.map((v, i) => [X(i), Y(v)]);
+        const d = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+        box.querySelector(".ln").setAttribute("d", d);
+        box.querySelector(".ar").setAttribute("d", d + ` L600 196 L0 196 Z`);
+        box.querySelector(".gr").innerHTML = ticks.map(t => `<line x1="0" x2="600" y1="${Y(t).toFixed(1)}" y2="${Y(t).toFixed(1)}"/>`).join("");
+        box.querySelector(".sx-y").innerHTML = ticks.slice().reverse().map(t => `<span style="top:${(Y(t) / 200 * 100).toFixed(2)}%">${short[key](t)}</span>`).join("");
+        box.querySelector(".sx-x").innerHTML = sel.map((r, i) => `<span style="left:${(X(i) / 6).toFixed(2)}%">${r.short}</span>`).join("");
+        box._pts = pts; box._sel = sel; box._key = key;
+        if (!reduced) { const ln = box.querySelector(".ln"), L = ln.getTotalLength ? ln.getTotalLength() : 0;
+          if (L) { ln.style.transition = "none"; ln.style.strokeDasharray = L; ln.style.strokeDashoffset = L; ln.getBoundingClientRect(); ln.style.transition = "stroke-dashoffset 1.1s cubic-bezier(.23,1,.32,1)"; ln.style.strokeDashoffset = 0; } }
+      }
+      const sum = (key, sel) => key === "aov" ? sel.reduce((t, r) => t + r.sales, 0) / sel.reduce((t, r) => t + r.orders, 0) : sel.reduce((t, r) => t + r[key], 0);
+      function all() {
+        const [a, b] = Q[q], sel = rows.slice(a, b + 1);
+        $$(".sx-chart", sd).forEach(x => x.classList.remove("hov")); // a stale tooltip would show the old value
+        draw($('[data-chart="main"]', sd), m); draw($('[data-chart="aov"]', sd), "aov"); draw($('[data-chart="orders"]', sd), "orders");
+        $('[data-sx="main"]', sd).textContent = F[m](sum(m, sel)); $('[data-sx="aov"]', sd).textContent = F.aov(sum("aov", sel)); $('[data-sx="orders"]', sd).textContent = F.orders(sum("orders", sel));
+        $(".sx-card.sx-wide .sx-ct", sd).textContent = { sales: "Total sales over time", orders: "Orders over time", aov: "Average order value over time" }[m];
+      }
+      // crosshair + tooltip on every chart
+      $$(".sx-chart", sd).forEach(box => {
+        const tip = $(".sx-tip", box), cross = $(".sx-cross", box), dot = $(".sx-dot", box);
+        const at = e => { const r = box.getBoundingClientRect(), x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)) * 600, pts = box._pts;
+          let i = 0; pts.forEach((p, j) => { if (Math.abs(p[0] - x) < Math.abs(pts[i][0] - x)) i = j; });
+          const [px, py] = pts[i], row = box._sel[i], lx = px / 6, ly = py / 2;
+          cross.style.left = lx + "%"; dot.style.left = lx + "%"; dot.style.top = ly + "%"; tip.style.left = Math.min(82, Math.max(18, lx)) + "%";
+          tip.innerHTML = `<small>${row.mo} ${s.year}</small><b>${F[box._key](row[box._key])}</b>`; box.classList.add("hov"); };
+        box.addEventListener("pointermove", at); box.addEventListener("pointerdown", at); box.addEventListener("pointerleave", () => box.classList.remove("hov"));
+      });
+      // range menu
+      const pick = $(".sx-pick", sd), btn = $(".sx-btn", pick), menu = $(".sx-menu", pick);
+      btn.addEventListener("click", () => { const open = menu.hidden; menu.hidden = !open; btn.setAttribute("aria-expanded", String(open)); });
+      menu.addEventListener("click", e => { const b = e.target.closest("[data-q]"); if (!b) return; q = b.dataset.q; $$("[data-q]", menu).forEach(x => x.setAttribute("aria-checked", String(x === b)));
+        $('[data-sx="range"]', sd).textContent = b.textContent; menu.hidden = true; btn.setAttribute("aria-expanded", "false"); all(); });
+      document.addEventListener("click", e => { if (!pick.contains(e.target)) { menu.hidden = true; btn.setAttribute("aria-expanded", "false"); } });
+      $$(".sx-seg button", sd).forEach(b => b.addEventListener("click", () => { m = b.dataset.m; $$(".sx-seg button", sd).forEach(x => x.setAttribute("aria-pressed", String(x === b))); all(); }));
+      // sparklines on the KPI cards
+      $$("[data-spark]", sd).forEach(sv => { const v = s.rows.map(r => r[sv.dataset.spark]), mx = Math.max(...v), mn = Math.min(...v);
+        sv.querySelector("path").setAttribute("d", v.map((y, i) => (i ? "L" : "M") + (i / (v.length - 1) * 100).toFixed(1) + " " + (28 - (y - mn) / (mx - mn) * 26).toFixed(1)).join(" ")); });
+      // the month table, sortable
+      const tb = $("[data-sxt] tbody", sd); let tk = "k", td = 1;
+      const tdraw = () => { const r = rows.slice().sort((a, b) => td * ((a[tk] == null ? -1e9 : a[tk]) - (b[tk] == null ? -1e9 : b[tk])));
+        tb.innerHTML = r.map(x => `<tr><td>${x.mo} ${s.year}</td><td>${n0(x.orders)}</td><td>${F.sales(x.sales)}</td><td>${F.aov(x.aov)}</td><td class="${x.mom == null ? "" : x.mom < 0 ? "dn" : "upc"}">${x.mom == null ? "—" : (x.mom > 0 ? "+" : "") + x.mom.toFixed(1) + "%"}</td></tr>`).join("");
+        $$("[data-sxt] th button", sd).forEach(b => { if (b.dataset.k === tk) b.setAttribute("aria-sort", td < 0 ? "descending" : "ascending"); else b.removeAttribute("aria-sort"); }); };
+      $$("[data-sxt] th button", sd).forEach(b => b.addEventListener("click", () => { if (tk === b.dataset.k) td = -td; else { tk = b.dataset.k; td = tk === "k" ? 1 : -1; } tdraw(); }));
+      tdraw();
+      const sdIo = "IntersectionObserver" in window ? new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { all(); sdIo.disconnect(); } }) : null;
+      sdIo ? sdIo.observe(sd) : all();
+      $$('[data-v="live"]', sd).forEach(b => b.addEventListener("click", () => requestAnimationFrame(all)));
     }
 
     // ad ledger: sort by any column, filter active
