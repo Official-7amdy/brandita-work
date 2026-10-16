@@ -547,34 +547,34 @@ html.cur,html.cur *{cursor:none!important}
 }
 .all-note{font-size:12.5px;color:var(--p-mute);margin-top:20px}
 
-/* ── the real file ─────────────────────────────────────────────────────── */
-.file{position:relative;overflow:hidden;background:#E8A33D;color:#1F1712;padding-block:clamp(90px,12vw,170px);--fg:#1F1712;--mute:rgba(31,23,18,.68);--rule:rgba(31,23,18,.2)}
-.file .label{color:rgba(31,23,18,.7)}
-.file .label::before{background:#1F1712}
-.file .h2 em{color:#fff}
-.file-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,5vw,90px);align-items:center}
-.file-nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:clamp(26px,4vw,44px)}
-.file-nums div{border-top:2px solid #1F1712;padding-top:10px}
-.file-nums b{display:block;font-size:clamp(30px,3.6vw,56px);font-weight:900;letter-spacing:-.045em;line-height:.9}
-.file-nums span{display:block;font-size:12.5px;font-weight:600;color:rgba(31,23,18,.72);margin-top:6px}
-.file-toc{list-style:none;margin:clamp(26px,4vw,44px) 0 0;padding:0;columns:2;column-gap:24px}
-.file-toc button{display:flex;gap:12px;align-items:baseline;width:100%;padding:9px 0;border-bottom:1px solid rgba(31,23,18,.18);font-size:15px;font-weight:700;text-align:start;transition:padding-left .4s var(--ease)}
-.file-toc button span{font-size:11.5px;font-weight:800;opacity:.6}
-@media (hover:hover) and (pointer:fine){.file-toc button:hover{padding-left:8px}}
-.file-open{margin-top:clamp(24px,3vw,36px);display:inline-flex;align-items:center;gap:12px;padding:8px 8px 8px 24px;border-radius:999px;background:#1F1712;color:#F7ECDD;font-size:16px;font-weight:800;transition:transform .16s var(--ease)}
-.file-open i{width:44px;height:44px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;transition:transform .55s var(--ease)}
-.file-open svg{width:17px;height:17px}
-.file-open:active{transform:scale(.97)}
-@media (hover:hover) and (pointer:fine){.file-open:hover i{transform:rotate(45deg)}}
-.file-r{position:relative;height:clamp(380px,46vw,620px)}
-.fw{position:absolute;margin:0;border-radius:16px;overflow:hidden;background:#fff;border:1px solid rgba(31,23,18,.18);will-change:transform}
-.fw .fb{display:flex;align-items:center;gap:6px;padding:9px 12px;background:#ececec;border-bottom:1px solid #dcdcdc;font-size:11.5px;font-weight:700;color:#555}
-.fw .fb i{width:9px;height:9px;border-radius:50%;background:#cfcfcf}
-.fw img{display:block;width:100%;height:auto;background:#fff}
-.fw.w1{width:78%;left:0;top:4%;transform:rotate(-4deg)}
-.fw.w2{width:72%;right:0;top:38%;transform:rotate(3deg)}
-.fw.w3{width:46%;left:14%;bottom:0;transform:rotate(-2deg)}
-@media (max-width:900px){.file-in{grid-template-columns:1fr}.file-r{height:clamp(300px,90vw,460px)}.file-toc{columns:1}}
+/* ── the agency ────────────────────────────────────────────────────────── */
+.ag{position:relative;padding-block:clamp(100px,13vw,190px);background:var(--ink)}
+.ag-h{font-size:clamp(44px,7.4vw,128px);letter-spacing:-.045em;line-height:.92;font-weight:900;max-width:14ch;margin-top:20px}
+.ag-h em{font-style:normal;color:var(--red-hi)}
+.ag-intro{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:30px;align-items:end;margin-top:clamp(28px,4vw,52px);max-width:1100px}
+.ag-intro .lede{max-width:52ch}
+.ag-cta{display:inline-flex;align-items:center;gap:12px;padding:7px 7px 7px 22px;border-radius:999px;border:1px solid var(--rule);font-size:15px;font-weight:800;text-decoration:none;white-space:nowrap;transition:border-color .3s ease}
+.ag-cta i{width:42px;height:42px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;transition:transform .55s var(--ease)}
+.ag-cta svg{width:16px;height:16px}
+@media (hover:hover) and (pointer:fine){.ag-cta:hover{border-color:var(--fg)}.ag-cta:hover i{transform:rotate(45deg)}}
+.ag-lines{list-style:none;margin:clamp(50px,7vw,100px) 0 0;padding:0;border-top:1px solid var(--rule);counter-reset:l}
+.agl{counter-increment:l}
+.agl button{position:relative;display:grid;grid-template-columns:70px minmax(0,1fr) minmax(0,1.1fr) auto;gap:clamp(14px,2.4vw,40px);align-items:center;width:100%;padding:clamp(22px,2.6vw,36px) 0;border-bottom:1px solid var(--rule);text-align:start;overflow:hidden}
+.agl button::before{content:counter(l,decimal-leading-zero);font-size:12.5px;font-weight:800;color:var(--red-hi)}
+.agl button::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--red-hi);transform:scaleX(0);transform-origin:0 50%;transition:transform .7s var(--ease)}
+.agl b{font-size:clamp(28px,4.2vw,64px);font-weight:900;letter-spacing:-.045em;line-height:.95;transition:transform .6s var(--ease)}
+.agl p{font-size:clamp(14.5px,1.25vw,17px);color:var(--mute);line-height:1.5;margin:0;max-width:44ch}
+.agl .ct{font-size:13px;font-weight:800;white-space:nowrap;color:var(--mute);border:1px solid var(--rule);border-radius:999px;padding:7px 14px;transition:color .3s ease,border-color .3s ease,background-color .3s ease}
+@media (hover:hover) and (pointer:fine){
+  .agl button:hover::after{transform:scaleX(1)}
+  .agl button:hover b{transform:translateX(14px)}
+  .agl button:hover .ct{background:var(--fg);color:var(--ink);border-color:var(--fg)}
+}
+@media (max-width:900px){
+  .ag-intro{grid-template-columns:1fr}
+  .agl button{grid-template-columns:34px minmax(0,1fr) auto;row-gap:8px}
+  .agl p{grid-column:2/-1;grid-row:2}
+}
 
 /* ── the method journey ────────────────────────────────────────────────── */
 .method{position:relative;padding-block:clamp(70px,8vh,110px) clamp(50px,6vh,90px);overflow:hidden}
@@ -584,8 +584,8 @@ html.cur,html.cur *{cursor:none!important}
 .mjc .n{font-size:clamp(64px,7vw,116px);font-weight:900;letter-spacing:-.045em;line-height:.78;color:transparent;-webkit-text-stroke:1.5px #4a464d}
 .mjc h3{font-size:clamp(24px,2.4vw,34px);letter-spacing:-.03em;margin-top:auto}
 .mjc p{font-size:15px;color:var(--mute);margin:0}
-.mjc .ev{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:8px;padding:14px 16px;border-radius:16px;background:rgba(232,163,61,.12);border:1px solid rgba(232,163,61,.35);text-align:start;color:var(--fg);transition:background-color .3s ease,transform .16s var(--ease)}
-.mjc .ev small{display:block;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#E8A33D}
+.mjc .ev{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:8px;padding:14px 16px;border-radius:16px;background:rgba(247,242,248,.05);border:1px solid var(--rule);text-align:start;color:var(--fg);transition:background-color .3s ease,transform .16s var(--ease)}
+.mjc .ev small{display:block;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red-hi)}
 .mjc .ev b{display:block;font-size:14.5px;font-weight:700;margin-top:3px}
 .mjc .ev i{flex:none;width:34px;height:34px;border-radius:50%;background:#E8A33D;color:#1F1712;display:grid;place-items:center}
 .mjc .ev svg{width:14px;height:14px}
@@ -707,36 +707,31 @@ html.cur,html.cur *{cursor:none!important}
   </div>
 </section>
 
+<!-- ── the agency: what Brandita is, and the lines the work falls into ──── -->
+<section class="ag" id="agency">
+  <div class="wrap">
+    <span class="label">Brandita for Digital Services · Cairo</span>
+    <h2 class="ag-h split">A digital marketing agency, measured on <em>one number.</em></h2>
+    <div class="ag-intro">
+      <p class="lede">Every engagement is agreed on one number before any work starts. It begins with an audit, runs on a dated calendar, and is reported on a single page: what moved, what did not, and the one decision we need from you.</p>
+      <a class="ag-cta" href="#start" data-cursor="Book">Start with an audit <i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></i></a>
+    </div>
+    <ol class="ag-lines" id="agLines"></ol>
+  </div>
+</section>
+
 <!-- ── the index: every file, one line each ───────────────────────────── -->
 <section class="ix" id="all" data-tone="light">
   <div class="wrap">
     <div class="ix-head">
-      <div><span class="label">All work</span><h2 class="h2 split" style="margin-top:14px">Nine files. Read each one<br>like a <em>story.</em></h2></div>
-      <p class="lede">One real client, Lazoomi, with real numbers. Eight samples that show the format until clients sign off on being named. Point at a file to preview it; open it to read the whole thing.</p>
+      <div><span class="label">All work</span><h2 class="h2 split" style="margin-top:14px">Selected work, written<br>as <em>case files.</em></h2></div>
+      <p class="lede">Every file follows the same structure: the leak, the fix, the number that moved and what did not work. Point at a file to preview it; open it to read the whole story.</p>
     </div>
     <div class="filters" id="filters" role="group" aria-label="Filter by service"></div>
     <ol class="ix-list" id="ixList"></ol>
-    <p class="all-note">Sample files carry placeholder figures. Brandita publishes a client's name and numbers only after written sign-off.</p>
+    <p class="all-note">Files marked Sample show the format with placeholder figures. A client's name and numbers are published only with their written sign-off.</p>
   </div>
   <div class="ix-peek" id="ixPeek" aria-hidden="true"></div>
-</section>
-
-<!-- ── the real file: a teaser that opens Lazoomi at any chapter ───────── -->
-<section class="file" id="file" data-tone="light">
-  <div class="wrap file-in">
-    <div class="file-l">
-      <span class="label">The real file</span>
-      <h2 class="h2 split" style="margin-top:14px">Open the Lazoomi file. Start at any <em>chapter.</em></h2>
-      <div class="file-nums" id="fileNums"></div>
-      <ol class="file-toc" id="fileToc"></ol>
-      <button class="file-open" type="button" id="fileOpen" data-cursor="Open">Open the full file <i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></i></button>
-    </div>
-    <div class="file-r" aria-hidden="true">
-      <figure class="fw w1"><span class="fb"><i></i><i></i><i></i>Store analytics</span><img src="img/lazoomi-shopify.png" alt="" loading="lazy"></figure>
-      <figure class="fw w2"><span class="fb"><i></i><i></i><i></i>Monthly operations sheet</span><img src="img/lazoomi-monthly-table.png" alt="" loading="lazy"></figure>
-      <figure class="fw w3"><span class="fb"><i></i><i></i><i></i>A live ad</span><img src="img/lazoomi-ad-post.png" alt="" loading="lazy"></figure>
-    </div>
-  </div>
 </section>
 
 <!-- ── the method: a journey where each stage opens its evidence ──────── -->
@@ -760,7 +755,7 @@ html.cur,html.cur *{cursor:none!important}
     </div>
     <div class="row2">
       <div class="bk">
-        <p class="lede">It starts the way Lazoomi's did: an audit of your ad account and your store, and the leak counted in orders a month, before any proposal.</p>
+        <p class="lede">Every engagement starts the same way: an audit of your ad account and your store, and the leak counted in orders a month, before any proposal.</p>
         <a class="book" id="magnet" href="for-stores.html#start" data-cursor="Book"><span class="t">Book a free call<small>The audit comes first. The proposal comes after.</small></span><span class="ar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
       </div>
       <ul class="sheet" aria-label="Contact">
@@ -965,19 +960,19 @@ html.cur,html.cur *{cursor:none!important}
         <span class="ix-t">${c.title}</span><span class="ix-m tnum">${c.metric}</span><span class="ix-s${c.real ? " real" : ""}">${c.real ? "Real client" : "Sample"}</span></button>
       <button class="ix-play" type="button" data-cursor="Play" aria-label="Play the ${c.client} story">${ICON.play}</button></li>`; }).join("");
 
-  // the real file: what the engine computes from Lazoomi's numbers, and its chapters
-  { const R = LZ.rows, first = R[0], spendX = Math.max(...R.map(r => r[1])) / first[1], salesX = Math.max(...R.map(r => r[3])) / first[3];
-    const mv = LZ.hooks.filter(h => !h[4]), st = LZ.hooks.filter(h => h[4]), avg = a => a.reduce((s, h) => s + h[3], 0) / a.length, ratio = avg(mv) / avg(st);
-    $("#fileNums").innerHTML = [[spendX.toFixed(1) + "×", "monthly ad spend, March to its peak"], [salesX.toFixed(1) + "×", "monthly sales, March to November"], [Math.round(ratio) + "×", "more viewers held by story hooks than statics"]]
-      .map(([v, l]) => `<div><b class="tnum">${v}</b><span>${l}</span></div>`).join("");
-    $("#fileToc").innerHTML = [["brief", "The brief"], ["before", "Before"], ["run", "The run, month by month"], ["work", "Nine levers"], ["creative", "The creative"], ["evidence", "The evidence"], ["result", "The result"], ["miss", "What did not work"]]
-      .map(([k, t], j) => `<li><button type="button" data-ch="${k}" data-cursor="Read"><span class="tnum">${pad(j + 1)}</span>${t}</button></li>`).join(""); }
-
-  // the method: each stage, with the place in the Lazoomi file that shows it
-  const PROOF = [["brief", "165 campaigns, an ad account and a store, read first"], ["before", "Six problems found before a single change"], ["work", "Nine levers, each with a test"],
-    ["creative", "Nine hooks tested, story against hard selling"], ["run", "Ten months, ROAS never under 4.32×"], ["result", "15% net margin, every quarter"]];
-  $("#mjTrack").innerHTML = STAGES.map(([t, d], i) => `<article class="mjc"><span class="n tnum" aria-hidden="true">${pad(i + 1)}</span><h3>${t}</h3><p>${d}</p>
-    <button class="ev" type="button" data-ch="${PROOF[i][0]}" data-cursor="Read"><span><small>In the Lazoomi file</small><b>${PROOF[i][1]}</b></span><i aria-hidden="true">${ARR}</i></button></article>`).join("");
+  // the agency's service lines; each counts its files and opens them in the index
+  const LINES = [["Performance media", "Performance", "Paid media run against one agreed number, with the creative, offers and budget pacing to move it."],
+    ["Brand and creative", "Brand", "Identity systems and the creative that carries them, built to be recognised in a feed, on a shelf and across every branch."],
+    ["Social and community", "Social", "Content written for the people who buy, in the language they speak, and the replies that turn a comment into an order."],
+    ["SEO and content", "SEO & content", "Pages written for what buyers search before they know your name, and content that compounds month after month."],
+    ["Commerce technology", "Commerce tech", "The store underneath it all: speed, checkout and tracking you can trust, so every channel above it converts."]];
+  $("#agLines").innerHTML = LINES.map(([t, l, d]) => { const n = CASES.filter(c => c.line === l).length;
+    return `<li class="agl"><button type="button" data-line="${l}" data-cursor="View"><b>${t}</b><p>${d}</p><span class="ct">${n} ${n === 1 ? "file" : "files"} →</span></button></li>`; }).join("");
+  // the method: each stage, and the document the client gets from it
+  const GETS = ["Access to every account, a baseline and the one number we will be judged on", "The leak, counted in orders a month, with fixes ranked by impact", "A one-page brief: the number, the buyer and the constraint, signed by both sides",
+    "Media, content, pages and creative delivered on a dated calendar", "A weekly line and one change proposed, with its reason", "One page, four numbers and the one decision we need from you"];
+  $("#mjTrack").innerHTML = STAGES.map(([t, d], i) => `<article class="mjc"><span class="n tnum" aria-hidden="true">${pad(i + 1)}</span><h3>${t}</h3>
+    <div class="ev"><span><small>You get</small><b>${GETS[i]}</b></span></div></article>`).join("");
 
   // which leak is yours: the closest files, then the call
   const LEAKS = [["Ads cost more than they return", "Performance"], ["Visitors come, but do not buy", "Commerce tech"], ["Followers never message", "Social"], ["Nobody finds us on search", "SEO & content"], ["Our brand looks different everywhere", "Brand"]];
@@ -1148,8 +1143,9 @@ html.cur,html.cur *{cursor:none!important}
   // the index: open the case, or play its story; a preview card follows the pointer
   $("#ixList").addEventListener("click", e => { const r = e.target.closest(".ixr"); if (!r) return; const i = +r.dataset.i;
     if (e.target.closest(".ix-play")) playCase(i); else openDetail(i, r.querySelector(".ixb")); });
-  $$("[data-ch]").forEach(b => b.addEventListener("click", () => openDetail(0, b, false, b.dataset.ch)));
-  $("#fileOpen").addEventListener("click", e => openDetail(0, e.currentTarget));
+  $("#agLines").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
+    const f = $(`#filters button[data-f="${b.dataset.line}"]`); f && f.click();
+    const el = $("#all"); if (lenis) lenis.scrollTo(el, { duration: 1.3 }); else el.scrollIntoView({ behavior: reduced ? "auto" : "smooth" }); });
   $("#pickOpts").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
     $$("#pickOpts button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
     const hits = CASES.map((c, i) => [c, i]).filter(([c]) => c.line === b.dataset.line).sort((a, z) => (z[0].real ? 1 : 0) - (a[0].real ? 1 : 0)).slice(0, 3);
@@ -1446,8 +1442,8 @@ html.cur,html.cur *{cursor:none!important}
     $$(".split").forEach(h => SplitText.create(h, { type: "lines", mask: "lines", autoSplit: true,
       onSplit: self => gsap.from(self.lines, { yPercent: 105, duration: 1.1, ease: "expo.out", stagger: .1, scrollTrigger: { trigger: h, start: "top 85%" } }) }));
     gsap.from(".ixr", { y: 40, opacity: 0, duration: .9, stagger: .06, ease: "expo.out", scrollTrigger: { trigger: "#ixList", start: "top 85%" } });
-    gsap.from("#fileNums > div, #fileToc li, #fileOpen", { y: 26, opacity: 0, duration: .8, stagger: .05, ease: "expo.out", scrollTrigger: { trigger: "#file", start: "top 70%" } });
-    [[".fw.w1", -70, -4], [".fw.w2", 50, 3], [".fw.w3", -30, -2]].forEach(([s, d, r]) => gsap.fromTo(s, { y: d * -1, rotation: r * 2 }, { y: d, rotation: r, ease: "none", scrollTrigger: { trigger: "#file", start: "top bottom", end: "bottom top", scrub: true } }));
+    gsap.from(".ag-intro > *", { y: 30, opacity: 0, duration: .9, stagger: .08, ease: "expo.out", scrollTrigger: { trigger: ".ag-intro", start: "top 85%" } });
+    gsap.from(".agl", { y: 50, opacity: 0, duration: .9, stagger: .08, ease: "expo.out", scrollTrigger: { trigger: "#agLines", start: "top 85%" } });
     gsap.from(".mjc", { y: 60, opacity: 0, duration: .9, stagger: .08, ease: "expo.out", scrollTrigger: { trigger: "#mj", start: "top 85%" } });
     gsap.from(cube, { y: 90, rotationX: -16, opacity: 0, duration: 1.4, ease: "expo.out", delay: .1 });
     gsap.from(".bub", { scale: .3, opacity: 0, duration: .9, stagger: .05, ease: "back.out(2.2)", delay: .25 });
