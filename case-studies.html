@@ -121,11 +121,17 @@ p{margin:0}
 .nav.light .hb .cta{background:#0B0B0B;color:#fff}
 @media (max-width:1100px){.hb-tag{display:none}}
 @media (max-width:900px){.hb{padding:5px 5px 5px 4px}.hb-tick{font-size:12px;padding:0 10px}}
+/* the other language, one quiet word beside the call */
+.hb-lang{flex:none;font-size:13px;font-weight:700;text-decoration:none;color:rgba(247,242,248,.72);padding:8px 6px;transition:color .3s ease}
+.hb-lang[lang=ar]{font-family:"Cairo",sans-serif;font-size:14px}
+@media (hover:hover) and (pointer:fine){.hb-lang:hover{color:#fff}.nav.light .hb-lang:hover{color:#0B0B0B}}
+.nav.light .hb-lang{color:#545454}
 /* phones: logo, the live line taking the room, and the call as one red key */
 @media (max-width:640px){
   .hb{gap:6px;padding:4px}
   .hb .lgp{padding:6px 4px 6px 10px}
   .hb-tick{flex:1 1 auto;padding:0 4px 0 12px;font-size:11.5px;gap:7px}
+  .hb-lang{padding:8px 2px;font-size:12.5px}
   .hb .cta,.nav.light .hb .cta{flex:none;padding:0;gap:0;background:none;border-radius:50%}
   .hb .cta span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   .nav .hb .cta i{width:38px;height:38px}
@@ -707,6 +713,7 @@ html.cur,html.cur *{cursor:none!important}
     <a href="#all" data-v="all">Case studies</a>
   </div>
   <span class="hb-tick" aria-live="polite"><i class="hb-dot" aria-hidden="true"></i><span class="hb-tx" id="hbTick"></span></span>
+  <a class="hb-lang" href="case-studies-ar.html" lang="ar" hreflang="ar">العربية</a>
   <a class="cta" href="#start" data-cursor="Book"><span>Book a call</span><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></i></a>
   </div>
 </nav>
