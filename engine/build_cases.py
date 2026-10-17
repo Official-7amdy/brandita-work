@@ -47,7 +47,7 @@ def logo(html):
     return m.group(1) if m else ""
 
 def page(c, engine_js, engine_css, logo_uri, nxt):
-    opts = {"bookUrl": BOOK, "storiesUrl": STORIES, "logo": logo_uri,
+    opts = {"bookUrl": BOOK, "storiesUrl": STORIES, "logo": _B["wm_en_white"]["uri"], "logoK": _B["wm_en_black"]["uri"],
             "next": {"href": f"case-{nxt['id']}.html", "title": nxt["client"], "headline": nxt["headline"], "metric": nxt["metric"]["value"],
                      "bg": nxt["palette"]["bg"], "fg": nxt["palette"]["fg"], "accent": nxt["palette"]["accent"]} if nxt else None}
     data = json.dumps(c, ensure_ascii=False).replace("</", "<\\/")

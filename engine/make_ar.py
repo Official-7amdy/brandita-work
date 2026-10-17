@@ -44,13 +44,13 @@ iso = lambda s: LRI + s + PDI
 R("<title>Brandita Case Files</title>", "<title>ملفات حالات برانديتا</title>\n<script>document.documentElement.lang = \"ar\"; document.documentElement.dir = \"rtl\";</script>")
 
 # ── header ───────────────────────────────────────────────────────────────
-R('aria-label="Brandita, back to the stories"', 'aria-label="برانديتا، العودة للقصص"')
-R('<span class="hb-tag">Digital marketing · Cairo</span>', '<span class="hb-tag">تسويق رقمي · القاهرة</span>')
+R('aria-label="Brandita, home"', 'aria-label="برانديتا، الرئيسية"')
+R('<span class="bh-tag">Digital marketing · Cairo</span>', '<span class="bh-tag">تسويق رقمي · القاهرة</span>')
 R('<a href="#reel" data-v="reel" class="on">Stories</a>', '<a href="#reel" data-v="reel" class="on">القصص</a>')
 R('<a href="#all" data-v="all">Case studies</a>', '<a href="#all" data-v="all">دراسات الحالة</a>')
-R(f'<a class="hb-lang" href="{AR_URL}" lang="ar" hreflang="ar">العربية</a>', f'<a class="hb-lang" href="{EN_URL}" lang="en" hreflang="en">English</a>')
-R('<a class="cta" href="#start" data-cursor="Book"><span>Book a call</span>', '<a class="cta" href="#start" data-cursor="احجز"><span>احجز مكالمة</span>')
-R('<nav class="nav" aria-label="Main">', '<nav class="nav" aria-label="القائمة">')
+R(f'<a class="bh-lang" href="{AR_URL}" lang="ar" hreflang="ar">العربية</a>', f'<a class="bh-lang" href="{EN_URL}" lang="en" hreflang="en">English</a>')
+R('<a class="bh-cta" href="#start" data-cursor="Book"><span>Book a call</span>', '<a class="bh-cta" href="#start" data-cursor="احجز"><span>احجز مكالمة</span>')
+R('<nav class="bh-mid" id="views" aria-label="Main">', '<nav class="bh-mid" id="views" aria-label="القائمة">')
 
 # ── phone tab bar ────────────────────────────────────────────────────────
 R('aria-label="Sections"', 'aria-label="الأقسام"')
@@ -94,16 +94,20 @@ R('<span class="k">WhatsApp</span>', '<span class="k">واتساب</span>', 2)
 R('data-copy="info@brandita.net">Copy</button>', 'data-copy="info@brandita.net">نسخ</button>')
 R('rel="noopener">Message</a>', 'rel="noopener">راسلنا</a>', 2)
 R('<span class="k">Studio</span><span class="v">Cairo, Egypt</span>', '<span class="k">المقر</span><span class="v">القاهرة، مصر</span>')
-R("Brandita for Digital Services. A digital marketing agency in Cairo: brand and creative, performance media, social and community, SEO and content.",
-  "برانديتا للخدمات الرقمية. وكالة تسويق رقمي في القاهرة: الهوية والإبداع، الإعلانات المدفوعة، السوشيال ميديا والمجتمع، والسيو والمحتوى.")
-R("<h3>Work</h3>", "<h3>الأعمال</h3>")
-R('<a href="#reel">Case stories</a>', '<a href="#reel">قصص الحالات</a>')
-R('<a href="#all">All work</a>', '<a href="#all">كل الأعمال</a>')
+# the shared footer (header/header.py renders it)
+R("<p>A digital marketing agency in Cairo: brand and creative, performance media, social and community, SEO and content.</p>",
+  "<p>وكالة تسويق رقمي في القاهرة: الهوية والإبداع، الإعلانات المدفوعة، السوشيال ميديا والمجتمع، والسيو والمحتوى.</p>")
+R('<h2 id="bf-w">Work</h2>', '<h2 id="bf-w">الأعمال</h2>')
+R('<li><a href="#reel">Case stories</a></li>', '<li><a href="#reel">قصص الحالات</a></li>')
+R('<li><a href="#all">Case studies</a></li>', '<li><a href="#all">دراسات الحالة</a></li>')
 R('Ny51PSz3Cb51nps8m1j7D6">For online stores</a>', 'Ny51PSz3Cb51nps8m1j7D6">للمتاجر الإلكترونية</a>')
-R("<h3>Contact</h3>", "<h3>تواصل</h3>")
+R('6zCn3cMvHCzk9erCcx5T1C">A full client case</a>', '6zCn3cMvHCzk9erCcx5T1C">حالة عميل كاملة</a>')
+R('<h2 id="bf-c">Contact</h2>', '<h2 id="bf-c">تواصل</h2>')
+R('rel="noopener">WhatsApp</a>', 'rel="noopener">واتساب</a>')
 R('<li><a href="#start">Book a call</a></li>', '<li><a href="#start">احجز مكالمة</a></li>')
-R("<h3>Follow</h3>", "<h3>تابعنا</h3>")
+R('<h2 id="bf-f">Follow</h2>', '<h2 id="bf-f">تابعنا</h2>')
 R("© 2026 All rights reserved — Brandita.net | Cairo, Egypt | info@brandita.net", "© 2026 جميع الحقوق محفوظة — Brandita.net | القاهرة، مصر | info@brandita.net")
+R(f'<a href="{AR_URL}" lang="ar" hreflang="ar">العربية</a><a href="#reel">', f'<a href="{EN_URL}" lang="en" hreflang="en">English</a><a href="#reel">')
 R('Back to top <span aria-hidden="true">↑</span>', 'العودة للأعلى <span aria-hidden="true">↑</span>')
 
 # ── the case sheet (the full cases inside it are the English case pages) ──
@@ -315,23 +319,19 @@ R('alt="Brandita"', 'alt="برانديتا"', 0)
 R('alt="Brandita team"', 'alt="فريق برانديتا"')
 
 # phone numbers keep their digit order inside Arabic lines
-R(">+20 109 930 7190<", "><span dir=\"ltr\">+20 109 930 7190</span><", 2)
-R(">+20 109 986 7256<", "><span dir=\"ltr\">+20 109 986 7256</span><", 2)
+R(">+20 109 930 7190<", "><span dir=\"ltr\">+20 109 930 7190</span><")
+R(">+20 109 986 7256<", "><span dir=\"ltr\">+20 109 986 7256</span><")
 
 # ── right to left: type and the physical sides in the stylesheet ─────────
 RTL_CSS = r'''
 /* ── Arabic edition: Cairo for type, no tracking (it breaks the joins), room
    for Arabic ascenders, and every physical side mirrored ─────────────────── */
 html[dir=rtl] body{font-family:"Cairo","Inter",system-ui,sans-serif}
-html[dir=rtl] .wmlink{width:75px;height:26px}
-html[dir=rtl] .site-foot .brand img{height:36px}
+html[dir=rtl] .bh-logo{--bh-wm-w:69px;--bh-wm-h:24px}
+html[dir=rtl] .bf .bf-brand img{height:28px}
 html[dir=rtl] body *{letter-spacing:0!important}
 html[dir=rtl] :is(h1,h2,h3,.big,.mid,.ix-t,.ix-c b,.missc b,.pc .ch){line-height:1.3}
-html[dir=rtl] .hb-tag{padding-left:0;border-left:0;padding-right:14px;border-right:1px solid rgba(255,255,255,.14)}
-html[dir=rtl] .hb-tick{margin-left:0;margin-right:auto;border-left:0;border-right:1px solid rgba(255,255,255,.14)}
-html[dir=rtl] .nav.light :is(.hb-tag,.hb-tick){border-color:rgba(11,11,11,.12)}
-html[dir=rtl] .hb .views{margin-left:0;margin-right:auto}
-html[dir=rtl] :is(.hb .views a::after,.chaps button::after,.segs b,.cbr .tr i,.hk .tr i,.qrow .tr i,.cmp .tr i,.agl button::after,.mj-line i){transform-origin:100% 50%}
+html[dir=rtl] :is(.chaps button::after,.segs b,.cbr .tr i,.hk .tr i,.qrow .tr i,.cmp .tr i,.agl button::after,.mj-line i){transform-origin:100% 50%}
 html[dir=rtl] .chaps button::after{left:0;right:30px}
 html[dir=rtl] .hd{left:8px;right:12px}
 html[dir=rtl] .pp,html[dir=rtl] .py .op small{margin-left:0;margin-right:auto}
@@ -342,7 +342,6 @@ html[dir=rtl] .lb button{right:auto;left:18px}
 html[dir=rtl] .book::before{right:auto;left:11px}
 html[dir=rtl] svg:has(> path[d="M7 17 17 7M8 7h9v9"]){transform:scaleX(-1)}
 @media (hover:hover) and (pointer:fine){html[dir=rtl] .nav .cta:hover i{transform:rotate(-45deg)}}
-@media (max-width:340px){html[dir=rtl] .hb-tick{padding-right:10px}}
 '''
 R("@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;", RTL_CSS.strip() + "\n@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;")
 
