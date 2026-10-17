@@ -61,7 +61,27 @@ html,body{margin:0;background:#E9E1D2}
 .cx-nav .bk svg{width:15px;height:15px}
 @media (hover:hover) and (pointer:fine){.cx-nav .bk:hover i{transform:rotate(45deg)}}
 .cx-nav .lg,.cx-nav .bk{white-space:nowrap}
-@media (max-width:560px){.cx-nav .lg span{display:none}.cx-nav .bk{font-size:12.5px;gap:8px;padding:4px 4px 4px 14px}.cx-nav .bk i{width:30px;height:30px}}
+/* ── the header: one adaptive capsule. Clear at the very top, smoked glass
+   tinted by the client on screen, light over paper; the middle line says
+   where the reader is ─────────────────────────────────────────────────── */
+.hb{display:flex;align-items:center;gap:clamp(10px,1.4vw,22px);width:min(100%,1240px);margin-inline:auto;padding:6px 6px 6px 8px;border-radius:999px;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--hb,#2a282d) 30%,rgba(22,21,24,.66)),color-mix(in srgb,var(--hb,#2a282d) 16%,rgba(12,11,13,.56)));
+  transition:background .8s ease,border-color .5s ease,box-shadow .5s ease}
+.hb-tag{font-size:10.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,242,248,.56);white-space:nowrap;padding-left:14px;border-left:1px solid rgba(255,255,255,.14)}
+.hb-tick{display:inline-flex;align-items:center;gap:9px;min-width:0;margin-left:auto;padding:0 14px;height:24px;border-left:1px solid rgba(255,255,255,.14);font-size:12.5px;font-weight:600;color:rgba(247,242,248,.84);white-space:nowrap;overflow:hidden}
+.hb-dot{flex:none;width:6px;height:6px;border-radius:50%;background:var(--red-hi,#F5342E);animation:hbpulse 2.6s ease-in-out infinite}
+@keyframes hbpulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hb-tx{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;transition:transform .5s cubic-bezier(.23,1,.32,1),opacity .3s ease}
+.hb-tx.out{transform:translateY(-110%);opacity:0}
+.hb-tx.in{transform:translateY(110%);opacity:0;transition:none}
+@media (prefers-reduced-motion:reduce){.hb-dot{animation:none}}
+.cx-nav{justify-content:center}
+.cx-nav.top .hb{background:transparent;border-color:rgba(255,255,255,.08);box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.cx-nav .hb{--hb:var(--ac)}
+.cx-nav .hb .lg{padding:8px 10px}
+.cx-nav .hb .bk{background:#F7F2F8;color:#0B0B0B;border-radius:999px}
+.hb-ring{flex:none;width:16px;height:16px;border-radius:50%;background:conic-gradient(var(--red-hi,#F5342E) calc(var(--p,0) * 1turn),rgba(255,255,255,.18) 0);-webkit-mask:radial-gradient(circle,transparent 4.5px,#000 5px);mask:radial-gradient(circle,transparent 4.5px,#000 5px)}
+@media (max-width:560px){.hb-tick{padding:0 10px;font-size:12px}.cx-nav .lg span{display:none}.cx-nav .bk{font-size:12.5px;gap:8px;padding:4px 4px 4px 14px}.cx-nav .bk i{width:30px;height:30px}}
 .cx-prog{position:fixed;z-index:51;left:0;right:0;top:0;height:3px;background:transparent;pointer-events:none}
 .cx-prog i{display:block;height:100%;background:var(--ac);transform-origin:0 50%;transform:scaleX(0)}
 .cx-index{position:fixed;z-index:40;right:var(--gut);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:4px;mix-blend-mode:normal}
@@ -744,8 +764,9 @@ html.cx-curon,html.cx-curon *{cursor:none!important}
     document.documentElement.style.background = p.bg;
     root.innerHTML = `
       <div class="cx-prog" aria-hidden="true"><i></i></div>
-      <nav class="cx-nav" aria-label="Case"><a class="lg gl" href="${esc(opts.storiesUrl)}">${opts.logo ? `<img src="${opts.logo}" alt="Brandita">` : "Brandita"}<span>Case stories</span></a>
-        <a class="bk gl" href="${esc(opts.bookUrl)}"><span>Book a call</span><i aria-hidden="true">${ARROW}</i></a></nav>
+      <nav class="cx-nav" aria-label="Case"><div class="hb gl"><a class="lg" href="${esc(opts.storiesUrl)}">${opts.logo ? `<img src="${opts.logo}" alt="Brandita">` : "Brandita"}<span>Case stories</span></a>
+        <span class="hb-tick" aria-live="polite"><i class="hb-ring" aria-hidden="true"></i><span class="hb-tx" data-tick>${esc(c.client)}</span></span>
+        <a class="bk" href="${esc(opts.bookUrl)}"><span>Book a call</span><i aria-hidden="true">${ARROW}</i></a></div></nav>
       <nav class="cx-index" aria-label="Chapters">${chapters.map(([k, t]) => `<a href="#${k}" data-ix="${k}"><span>${esc(t)}</span><i></i></a>`).join("")}</nav>
       ${B.cover(c, R)}${chapters.map(([k], j) => B[k](c, R, j + 1)).join("")}${end(c, opts)}
       <div class="cx-lb" hidden role="dialog" aria-modal="true" aria-label="Screenshot"><figure><p></p></figure><button type="button" aria-label="Close">×</button></div>`;
@@ -774,11 +795,18 @@ html.cx-curon,html.cx-curon *{cursor:none!important}
 
     // progress bar, chapter index, the hiding nav
     const prog = $(".cx-prog i"), nav = $(".cx-nav"), ix = $$(".cx-index a"), secs = ix.map(a => $("#" + a.dataset.ix));
-    let lastY = scrollY, ticking = false;
+    let lastY = scrollY, ticking = false, tickNow = "";
+    const tickEl = $("[data-tick]"), ring = $(".hb-ring");
+    const setTick = s => { if (!tickEl || s === tickNow) return; tickNow = s; if (reduced) { tickEl.textContent = s; return; }
+      tickEl.classList.add("out"); setTimeout(() => { tickEl.textContent = s; tickEl.classList.remove("out"); tickEl.classList.add("in"); void tickEl.offsetWidth; tickEl.classList.remove("in"); }, 260); };
     const onScroll = () => { ticking = false; const y = scrollY, h = document.documentElement.scrollHeight - innerHeight;
       prog.style.transform = `scaleX(${h > 0 ? (y / h).toFixed(4) : 0})`;
       if (Math.abs(y - lastY) > 4) { nav.classList.toggle("hide", y > lastY && y > innerHeight * .8); lastY = y; }
       let on = -1; secs.forEach((s, k) => { if (s && s.getBoundingClientRect().top < innerHeight * .45) on = k; }); ix.forEach((a, k) => a.classList.toggle("on", k === on));
+      // the header says which chapter is open, and how far through the case the reader is
+      setTick(on < 0 ? c.client : `${pad(on + 1)} · ${ix[on].textContent}`);
+      if (ring) ring.style.setProperty("--p", h > 0 ? (y / h).toFixed(3) : 0);
+      nav.classList.toggle("top", y < 8);
       runUpdate(); };
     addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
 

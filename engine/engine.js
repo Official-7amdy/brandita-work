@@ -273,8 +273,9 @@
     document.documentElement.style.background = p.bg;
     root.innerHTML = `
       <div class="cx-prog" aria-hidden="true"><i></i></div>
-      <nav class="cx-nav" aria-label="Case"><a class="lg gl" href="${esc(opts.storiesUrl)}">${opts.logo ? `<img src="${opts.logo}" alt="Brandita">` : "Brandita"}<span>Case stories</span></a>
-        <a class="bk gl" href="${esc(opts.bookUrl)}"><span>Book a call</span><i aria-hidden="true">${ARROW}</i></a></nav>
+      <nav class="cx-nav" aria-label="Case"><div class="hb gl"><a class="lg" href="${esc(opts.storiesUrl)}">${opts.logo ? `<img src="${opts.logo}" alt="Brandita">` : "Brandita"}<span>Case stories</span></a>
+        <span class="hb-tick" aria-live="polite"><i class="hb-ring" aria-hidden="true"></i><span class="hb-tx" data-tick>${esc(c.client)}</span></span>
+        <a class="bk" href="${esc(opts.bookUrl)}"><span>Book a call</span><i aria-hidden="true">${ARROW}</i></a></div></nav>
       <nav class="cx-index" aria-label="Chapters">${chapters.map(([k, t]) => `<a href="#${k}" data-ix="${k}"><span>${esc(t)}</span><i></i></a>`).join("")}</nav>
       ${B.cover(c, R)}${chapters.map(([k], j) => B[k](c, R, j + 1)).join("")}${end(c, opts)}
       <div class="cx-lb" hidden role="dialog" aria-modal="true" aria-label="Screenshot"><figure><p></p></figure><button type="button" aria-label="Close">×</button></div>`;
@@ -303,11 +304,18 @@
 
     // progress bar, chapter index, the hiding nav
     const prog = $(".cx-prog i"), nav = $(".cx-nav"), ix = $$(".cx-index a"), secs = ix.map(a => $("#" + a.dataset.ix));
-    let lastY = scrollY, ticking = false;
+    let lastY = scrollY, ticking = false, tickNow = "";
+    const tickEl = $("[data-tick]"), ring = $(".hb-ring");
+    const setTick = s => { if (!tickEl || s === tickNow) return; tickNow = s; if (reduced) { tickEl.textContent = s; return; }
+      tickEl.classList.add("out"); setTimeout(() => { tickEl.textContent = s; tickEl.classList.remove("out"); tickEl.classList.add("in"); void tickEl.offsetWidth; tickEl.classList.remove("in"); }, 260); };
     const onScroll = () => { ticking = false; const y = scrollY, h = document.documentElement.scrollHeight - innerHeight;
       prog.style.transform = `scaleX(${h > 0 ? (y / h).toFixed(4) : 0})`;
       if (Math.abs(y - lastY) > 4) { nav.classList.toggle("hide", y > lastY && y > innerHeight * .8); lastY = y; }
       let on = -1; secs.forEach((s, k) => { if (s && s.getBoundingClientRect().top < innerHeight * .45) on = k; }); ix.forEach((a, k) => a.classList.toggle("on", k === on));
+      // the header says which chapter is open, and how far through the case the reader is
+      setTick(on < 0 ? c.client : `${pad(on + 1)} · ${ix[on].textContent}`);
+      if (ring) ring.style.setProperty("--p", h > 0 ? (y / h).toFixed(3) : 0);
+      nav.classList.toggle("top", y < 8);
       runUpdate(); };
     addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
 
