@@ -2,7 +2,7 @@
    The client's palette arrives as --bg / --fg / --ac / --ai on .cx; everything
    else derives from it, so a light client and a dark client both work. */
 .cx{--mute:color-mix(in srgb,var(--fg) 62%,transparent);--rule:color-mix(in srgb,var(--fg) 14%,transparent);--soft:color-mix(in srgb,var(--fg) 6%,transparent);
-  --ease:cubic-bezier(.23,1,.32,1);--gut:clamp(18px,4vw,64px);--maxw:1320px;--red:#DE0000;
+  --ease:cubic-bezier(.23,1,.32,1);--gut:clamp(18px,4vw,64px);--maxw:1320px;--red:#D63233;
   background:var(--bg);color:var(--fg);font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
 .cx *{box-sizing:border-box}
 .cx h1,.cx h2,.cx h3,.cx h4,.cx p,.cx dl,.cx dd,.cx figure{margin:0}
@@ -29,12 +29,12 @@
 .cx-nav{position:fixed;z-index:50;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 14px);padding-inline:var(--gut);display:flex;justify-content:space-between;align-items:center;gap:10px;pointer-events:none;transition:transform .55s var(--ease)}
 .cx-nav>*{pointer-events:auto}
 .cx-nav.hide{transform:translateY(calc(-100% - 24px - env(safe-area-inset-top,0px)))}
-.gl{position:relative;isolation:isolate;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(180deg,rgba(58,56,62,.5),rgba(16,15,18,.4));
+.gl{position:relative;isolation:isolate;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(180deg,rgba(58,58,58,.5),rgba(19,19,19,.4));
   box-shadow:inset 0 1px 0 rgba(255,255,255,.34),inset 0 -1px 0 rgba(255,255,255,.07);backdrop-filter:blur(18px) saturate(1.9);-webkit-backdrop-filter:blur(18px) saturate(1.9)}
-.cx-nav .lg{display:flex;align-items:center;gap:12px;padding:9px 16px;text-decoration:none;color:#F7F2F8;font-size:13px;font-weight:700}
+.cx-nav .lg{display:flex;align-items:center;gap:12px;padding:9px 16px;text-decoration:none;color:#F5F4F1;font-size:13px;font-weight:700}
 .cx-nav .lg img{height:22px;width:auto;display:block}
 .cx-nav .lg span{opacity:.7;border-left:1px solid rgba(255,255,255,.2);padding-left:12px}
-.cx-nav .bk{display:inline-flex;align-items:center;gap:10px;padding:5px 5px 5px 18px;text-decoration:none;color:#F7F2F8;font-size:13.5px;font-weight:700}
+.cx-nav .bk{display:inline-flex;align-items:center;gap:10px;padding:5px 5px 5px 18px;text-decoration:none;color:#F5F4F1;font-size:13.5px;font-weight:700}
 .cx-nav .bk i{width:33px;height:33px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;transition:transform .55s var(--ease)}
 .cx-nav .bk svg{width:15px;height:15px}
 @media (hover:hover) and (pointer:fine){.cx-nav .bk:hover i{transform:rotate(45deg)}}
@@ -43,11 +43,11 @@
    tinted by the client on screen, light over paper; the middle line says
    where the reader is ─────────────────────────────────────────────────── */
 .hb{display:flex;align-items:center;gap:clamp(10px,1.4vw,22px);width:min(100%,1240px);margin-inline:auto;padding:6px 6px 6px 8px;border-radius:999px;
-  background:linear-gradient(180deg,color-mix(in srgb,var(--hb,#2a282d) 30%,rgba(22,21,24,.66)),color-mix(in srgb,var(--hb,#2a282d) 16%,rgba(12,11,13,.56)));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--hb,#262626) 30%,rgba(19,19,19,.66)),color-mix(in srgb,var(--hb,#262626) 16%,rgba(14,14,14,.56)));
   transition:background .8s ease,border-color .5s ease,box-shadow .5s ease}
-.hb-tag{font-size:10.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,242,248,.56);white-space:nowrap;padding-left:14px;border-left:1px solid rgba(255,255,255,.14)}
-.hb-tick{display:inline-flex;align-items:center;gap:9px;min-width:0;margin-left:auto;padding:0 14px;height:24px;border-left:1px solid rgba(255,255,255,.14);font-size:12.5px;font-weight:600;color:rgba(247,242,248,.84);white-space:nowrap;overflow:hidden}
-.hb-dot{flex:none;width:6px;height:6px;border-radius:50%;background:var(--red-hi,#F5342E);animation:hbpulse 2.6s ease-in-out infinite}
+.hb-tag{font-size:10.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,244,241,.56);white-space:nowrap;padding-left:14px;border-left:1px solid rgba(255,255,255,.14)}
+.hb-tick{display:inline-flex;align-items:center;gap:9px;min-width:0;margin-left:auto;padding:0 14px;height:24px;border-left:1px solid rgba(255,255,255,.14);font-size:12.5px;font-weight:600;color:rgba(245,244,241,.84);white-space:nowrap;overflow:hidden}
+.hb-dot{flex:none;width:6px;height:6px;border-radius:50%;background:var(--red-hi,#D63233);animation:hbpulse 2.6s ease-in-out infinite}
 @keyframes hbpulse{0%,100%{opacity:1}50%{opacity:.3}}
 .hb-tx{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;transition:transform .5s cubic-bezier(.23,1,.32,1),opacity .3s ease}
 .hb-tx.out{transform:translateY(-110%);opacity:0}
@@ -57,8 +57,8 @@
 .cx-nav.top .hb{background:transparent;border-color:rgba(255,255,255,.08);box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
 .cx-nav .hb{--hb:var(--ac)}
 .cx-nav .hb .lg{padding:8px 10px}
-.cx-nav .hb .bk{background:#F7F2F8;color:#0B0B0B;border-radius:999px}
-.hb-ring{flex:none;width:16px;height:16px;border-radius:50%;background:conic-gradient(var(--red-hi,#F5342E) calc(var(--p,0) * 1turn),rgba(255,255,255,.18) 0);-webkit-mask:radial-gradient(circle,transparent 4.5px,#000 5px);mask:radial-gradient(circle,transparent 4.5px,#000 5px)}
+.cx-nav .hb .bk{background:#F5F4F1;color:#131313;border-radius:999px}
+.hb-ring{flex:none;width:16px;height:16px;border-radius:50%;background:conic-gradient(var(--red-hi,#D63233) calc(var(--p,0) * 1turn),rgba(255,255,255,.18) 0);-webkit-mask:radial-gradient(circle,transparent 4.5px,#000 5px);mask:radial-gradient(circle,transparent 4.5px,#000 5px)}
 @media (max-width:560px){.cx-nav .hb{gap:6px;padding:4px}.cx-nav .hb .lg{padding:6px 4px 6px 10px}.hb-tick{flex:1 1 auto;padding:0 4px 0 12px;font-size:11.5px;gap:7px}.cx-nav .lg span{display:none}.cx-nav .hb .bk{flex:none;padding:0;gap:0;background:none;border-radius:50%}.cx-nav .bk span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.cx-nav .bk i{width:38px;height:38px}}
 .cx-prog{position:fixed;z-index:51;left:0;right:0;top:0;height:3px;background:transparent;pointer-events:none}
 .cx-prog i{display:block;height:100%;background:var(--ac);transform-origin:0 50%;transform:scaleX(0)}
@@ -380,7 +380,7 @@
 .reel.drag{cursor:grabbing;scroll-snap-type:none}
 /* the cursor */
 html.cx-curon,html.cx-curon *{cursor:none!important}
-.cx-cur{position:fixed;left:0;top:0;z-index:99;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;background:var(--red,#DE0000);pointer-events:none;opacity:0;display:grid;place-items:center;transition:opacity .25s ease;will-change:transform}
+.cx-cur{position:fixed;left:0;top:0;z-index:99;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;background:var(--red,#D63233);pointer-events:none;opacity:0;display:grid;place-items:center;transition:opacity .25s ease;will-change:transform}
 .cx-cur span{font:800 11px/1 "Inter",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#fff;opacity:0;transition:opacity .2s ease}
 
 /* ── the result ── */

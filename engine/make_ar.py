@@ -305,6 +305,15 @@ R('if (e.key === "ArrowLeft") { e.preventDefault(); dismissHint(); if (e.shiftKe
 R('$$("li", el), { x: -18, opacity: 0 }', '$$("li", el), { x: 18, opacity: 0 }')
 R('tx = e.clientX + 170;', 'tx = e.clientX - 170;')
 
+# the Arabic wordmark, in the same tone, wherever the English one sits
+BR = json.load(open(os.path.join(HERE, "brand", "brand.json"), encoding="utf-8"))
+for tone in ("white", "black"):
+    R(BR[f"wm_en_{tone}"]["uri"], BR[f"wm_ar_{tone}"]["uri"], 0)
+AR_W = round(26 * BR["wm_ar_white"]["w"] / BR["wm_ar_white"]["h"])
+t = re.sub(r'(class="wm [bw]" src="[^"]+" alt="[^"]*") width="\d+" height="\d+"', lambda m: m.group(1) + f' width="{AR_W}" height="26"', t)
+R('alt="Brandita"', 'alt="برانديتا"', 0)
+R('alt="Brandita team"', 'alt="فريق برانديتا"')
+
 # phone numbers keep their digit order inside Arabic lines
 R(">+20 109 930 7190<", "><span dir=\"ltr\">+20 109 930 7190</span><", 2)
 R(">+20 109 986 7256<", "><span dir=\"ltr\">+20 109 986 7256</span><", 2)
@@ -314,6 +323,8 @@ RTL_CSS = r'''
 /* ── Arabic edition: Cairo for type, no tracking (it breaks the joins), room
    for Arabic ascenders, and every physical side mirrored ─────────────────── */
 html[dir=rtl] body{font-family:"Cairo","Inter",system-ui,sans-serif}
+html[dir=rtl] .wmlink{width:75px;height:26px}
+html[dir=rtl] .site-foot .brand img{height:36px}
 html[dir=rtl] body *{letter-spacing:0!important}
 html[dir=rtl] :is(h1,h2,h3,.big,.mid,.ix-t,.ix-c b,.missc b,.pc .ch){line-height:1.3}
 html[dir=rtl] .hb-tag{padding-left:0;border-left:0;padding-right:14px;border-right:1px solid rgba(255,255,255,.14)}

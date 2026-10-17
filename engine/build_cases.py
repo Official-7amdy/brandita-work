@@ -16,6 +16,8 @@ INTERACTIVE = os.path.dirname(HERE)
 ORDER = ["lazoomi", "speed", "arabic", "media", "seo", "checkout", "replies", "identity", "ramadan"]
 # artifact links; build-site.ps1 maps them to relative pages on the website
 STORIES = "https://claude.ai/artifact/GUMuDPecfJkTZaLWBaaiud"
+_B = json.load(open(os.path.join(INTERACTIVE, "brand", "brand.json"), encoding="utf-8"))
+ICONS = f'<link rel="icon" type="image/png" sizes="32x32" href="{_B["icon32"]["uri"]}">\n<link rel="apple-touch-icon" href="{_B["icon180"]["uri"]}">'
 BOOK = "https://claude.ai/artifact/Ny51PSz3Cb51nps8m1j7D6#start"
 
 class CaseError(Exception):
@@ -55,6 +57,7 @@ def page(c, engine_js, engine_css, logo_uri, nxt):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title>
+{ICONS}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@600;800&display=swap">
