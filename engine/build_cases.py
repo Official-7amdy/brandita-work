@@ -50,7 +50,9 @@ def page(c, engine_js, engine_css, logo_uri, nxt):
                      "bg": nxt["palette"]["bg"], "fg": nxt["palette"]["fg"], "accent": nxt["palette"]["accent"]} if nxt else None}
     data = json.dumps(c, ensure_ascii=False).replace("</", "<\\/")
     title = f"{c['client']} case study · Brandita"
-    return f"""<meta charset="utf-8">
+    return f"""<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
