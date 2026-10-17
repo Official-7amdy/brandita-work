@@ -385,6 +385,7 @@ window.BH = window.BH_init();
       let on = -1; secs.forEach((s, k) => { if (s && s.getBoundingClientRect().top < innerHeight * .45) on = k; }); ix.forEach((a, k) => a.classList.toggle("on", k === on));
       BH.tick(on < 0 ? c.client : `${pad(on + 1)} · ${ix[on].textContent}`);
       BH.progress(h > 0 ? y / h : 0); BH.tone(y < 8 ? bhTop : bhOn);
+      root.style.setProperty("--sp", h > 0 ? (y / h).toFixed(3) : 0);
       runUpdate(); };
     addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
     // the chapter rail steps aside once the footer is on screen

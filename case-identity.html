@@ -151,7 +151,9 @@ html,body{margin:0;background:#1E4D36}
    place as the reader arrives, and the colophon under it. ─────────────── */
 .bf{--bf-fg:#F5F4F1;--bf-mute:rgba(245,244,241,.5);--bf-link:rgba(245,244,241,.74);--bf-rule:rgba(245,244,241,.1);
   background:#131313;color:var(--bf-fg);font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  padding:clamp(56px,7vw,96px) clamp(16px,4vw,64px) calc(22px + env(safe-area-inset-bottom,0px));overflow:hidden}
+  padding:clamp(56px,7vw,96px) clamp(16px,4vw,64px) calc(22px + env(safe-area-inset-bottom,0px));position:relative;overflow-x:clip}
+/* whatever the page ends on melts into the ink: an eased gradient, never a hard edge */
+.bf::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:clamp(120px,20vh,240px);pointer-events:none;background:linear-gradient(180deg,rgba(19,19,19,0) 0%,rgba(19,19,19,0.013) 8.1%,rgba(19,19,19,0.049) 15.5%,rgba(19,19,19,0.104) 22.5%,rgba(19,19,19,0.175) 29%,rgba(19,19,19,0.259) 35.3%,rgba(19,19,19,0.352) 41.2%,rgba(19,19,19,0.45) 47.1%,rgba(19,19,19,0.55) 52.9%,rgba(19,19,19,0.648) 58.8%,rgba(19,19,19,0.741) 64.7%,rgba(19,19,19,0.825) 71%,rgba(19,19,19,0.896) 77.5%,rgba(19,19,19,0.951) 84.5%,rgba(19,19,19,0.987) 91.9%,rgba(19,19,19,1) 100%)}
 .bf .bf-in{max-width:1240px;margin-inline:auto}
 .bf .bf-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 40px;padding-top:22px;border-top:1px solid var(--bf-rule)}
 .bf nav{display:flex;flex-wrap:wrap;gap:6px 28px}
@@ -330,6 +332,14 @@ html,body{margin:0;background:#1E4D36}
 .win-bar{display:flex;align-items:center;gap:7px;padding:12px 16px;background:#ececec;border-bottom:1px solid #dcdcdc;font-size:12.5px;font-weight:700;color:#555}
 .win-bar i{width:11px;height:11px;border-radius:50%;background:#cfcfcf}
 .win-bar span{margin-left:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win-bar>span:not(.win-tg){min-width:0;flex:1 1 auto}
+@media (max-width:560px){
+  .win-bar>i{display:none}
+  .win-bar>span:not(.win-tg){margin-left:0}
+  .ld{min-width:620px;font-size:12.5px}
+  .ld th:first-child,.ld td:first-child{width:142px;max-width:142px;white-space:normal;line-height:1.3}
+  .ld td,.ld th button{padding:10px}
+}
 .win-body{padding:clamp(16px,2vw,26px)}
 .win-src{font-size:12px;color:#6b6b6b;margin-top:16px}
 /* store dashboard: an analytics admin. Flat (no shadows), Inter, the admin's neutral greys */
@@ -423,6 +433,11 @@ html,body{margin:0;background:#1E4D36}
 }
 /* ad ledger */
 .ld-ctl{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.ld-ctl .sd-range{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 12px;border-radius:9px;background:#fff;border:1px solid #d4d4d4;font-size:12.5px;font-weight:600;color:#303030}
+.ld-ctl .sd-range svg{width:15px;height:15px;flex:none}
+.ld-ctl .seg{display:inline-flex;gap:2px;padding:3px;border-radius:9px;background:#ececec}
+.ld-ctl .seg button{min-height:30px;padding:0 12px;border-radius:7px;font-size:12.5px;font-weight:700;color:#555}
+.ld-ctl .seg button[aria-pressed="true"]{background:#fff;color:#111;box-shadow:inset 0 0 0 1px #d4d4d4}
 .ld-scroll{overflow-x:auto;border:1px solid #e3e3e3;border-radius:14px;background:#fff}
 .ld{border-collapse:collapse;width:100%;min-width:760px;font-size:13px}
 .ld th{position:sticky;top:0;background:#f6f6f6;text-align:right;font-size:12px;font-weight:700;color:#555;padding:0;border-bottom:1px solid #e3e3e3;white-space:nowrap}
@@ -486,7 +501,7 @@ html,body{margin:0;background:#1E4D36}
 .feed-n b{color:var(--ac)}
 @media (max-width:760px){.feed{grid-template-columns:1fr;justify-items:center}.feed-t{justify-self:stretch}}
 /* rebuilt / original */
-.win-tg{margin-left:auto;display:inline-flex;gap:2px;padding:3px;border-radius:9px;background:#dedede}
+.win-tg{margin-left:auto;flex:none;display:inline-flex;gap:2px;padding:3px;border-radius:9px;background:#dedede}
 .win-tg button{padding:5px 10px;border-radius:7px;font-size:11.5px;font-weight:700;color:#555}
 @media (pointer:coarse){.win-tg button{padding:10px 14px;font-size:12.5px}.sx-btn{height:38px}}
 .win-tg button[aria-pressed="true"]{background:#fff;color:#111}
@@ -577,6 +592,13 @@ html.cx-curon,html.cx-curon *{cursor:none!important}
 
 /* embedded in the stories page: no chrome, room for the action bar */
 .cx.embed .bh,.cx.embed .cx-index{display:none}
+/* ambient light: two pools of the client's colour drift as the reader goes down the case
+   (--sp is scroll progress); blurred, grained, felt more than seen */
+.cx{position:relative;isolation:isolate}
+.cx::before{content:"";position:fixed;inset:-12%;z-index:-1;pointer-events:none;filter:blur(18px);
+  background:radial-gradient(40% 36% at calc(16% + var(--sp,0) * 60%) calc(14% + var(--sp,0) * 34%),color-mix(in srgb,var(--ac) 22%,transparent),transparent 70%),
+    radial-gradient(36% 32% at calc(88% - var(--sp,0) * 50%) calc(82% - var(--sp,0) * 26%),color-mix(in srgb,var(--ac) 13%,transparent),transparent 70%)}
+.cx::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;opacity:.06;mix-blend-mode:soft-light}
 .cx .cx-index{transition:opacity .4s ease}
 .cx.at-end .cx-index{opacity:0;pointer-events:none}
 @media (max-width:900px){.cx.embed{padding-bottom:calc(80px + env(safe-area-inset-bottom,0px))}}
@@ -973,6 +995,7 @@ window.BH = window.BH_init();
       let on = -1; secs.forEach((s, k) => { if (s && s.getBoundingClientRect().top < innerHeight * .45) on = k; }); ix.forEach((a, k) => a.classList.toggle("on", k === on));
       BH.tick(on < 0 ? c.client : `${pad(on + 1)} · ${ix[on].textContent}`);
       BH.progress(h > 0 ? y / h : 0); BH.tone(y < 8 ? bhTop : bhOn);
+      root.style.setProperty("--sp", h > 0 ? (y / h).toFixed(3) : 0);
       runUpdate(); };
     addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
     // the chapter rail steps aside once the footer is on screen

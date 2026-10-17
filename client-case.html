@@ -167,7 +167,9 @@ section{padding-block:clamp(64px,9vw,120px)}
    place as the reader arrives, and the colophon under it. ─────────────── */
 .bf{--bf-fg:#F5F4F1;--bf-mute:rgba(245,244,241,.5);--bf-link:rgba(245,244,241,.74);--bf-rule:rgba(245,244,241,.1);
   background:#131313;color:var(--bf-fg);font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  padding:clamp(56px,7vw,96px) clamp(16px,4vw,64px) calc(22px + env(safe-area-inset-bottom,0px));overflow:hidden}
+  padding:clamp(56px,7vw,96px) clamp(16px,4vw,64px) calc(22px + env(safe-area-inset-bottom,0px));position:relative;overflow-x:clip}
+/* whatever the page ends on melts into the ink: an eased gradient, never a hard edge */
+.bf::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:clamp(120px,20vh,240px);pointer-events:none;background:linear-gradient(180deg,rgba(19,19,19,0) 0%,rgba(19,19,19,0.013) 8.1%,rgba(19,19,19,0.049) 15.5%,rgba(19,19,19,0.104) 22.5%,rgba(19,19,19,0.175) 29%,rgba(19,19,19,0.259) 35.3%,rgba(19,19,19,0.352) 41.2%,rgba(19,19,19,0.45) 47.1%,rgba(19,19,19,0.55) 52.9%,rgba(19,19,19,0.648) 58.8%,rgba(19,19,19,0.741) 64.7%,rgba(19,19,19,0.825) 71%,rgba(19,19,19,0.896) 77.5%,rgba(19,19,19,0.951) 84.5%,rgba(19,19,19,0.987) 91.9%,rgba(19,19,19,1) 100%)}
 .bf .bf-in{max-width:1240px;margin-inline:auto}
 .bf .bf-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 40px;padding-top:22px;border-top:1px solid var(--bf-rule)}
 .bf nav{display:flex;flex-wrap:wrap;gap:6px 28px}
