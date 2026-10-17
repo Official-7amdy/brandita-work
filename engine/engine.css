@@ -372,6 +372,7 @@
 /* rebuilt / original */
 .win-tg{margin-left:auto;display:inline-flex;gap:2px;padding:3px;border-radius:9px;background:#dedede}
 .win-tg button{padding:5px 10px;border-radius:7px;font-size:11.5px;font-weight:700;color:#555}
+@media (pointer:coarse){.win-tg button{padding:10px 14px;font-size:12.5px}.sx-btn{height:38px}}
 .win-tg button[aria-pressed="true"]{background:#fff;color:#111}
 .win-orig{padding:clamp(12px,1.6vw,20px)}
 .cx .wo{display:block;width:100%}

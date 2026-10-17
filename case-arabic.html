@@ -394,6 +394,7 @@ html,body{margin:0;background:#A9432A}
 /* rebuilt / original */
 .win-tg{margin-left:auto;display:inline-flex;gap:2px;padding:3px;border-radius:9px;background:#dedede}
 .win-tg button{padding:5px 10px;border-radius:7px;font-size:11.5px;font-weight:700;color:#555}
+@media (pointer:coarse){.win-tg button{padding:10px 14px;font-size:12.5px}.sx-btn{height:38px}}
 .win-tg button[aria-pressed="true"]{background:#fff;color:#111}
 .win-orig{padding:clamp(12px,1.6vw,20px)}
 .cx .wo{display:block;width:100%}
@@ -795,13 +796,21 @@ html.cx-curon,html.cx-curon *{cursor:none!important}
 
     // progress bar, chapter index, the hiding nav
     const prog = $(".cx-prog i"), nav = $(".cx-nav"), ix = $$(".cx-index a"), secs = ix.map(a => $("#" + a.dataset.ix));
-    let lastY = scrollY, ticking = false, tickNow = "";
+    let lastY = scrollY, ticking = false, tickNow = "", navRun = 0, hold = 0;
+    // the phone toolbar resizes the viewport on every scroll up; never read that as a scroll down
+    const holdNav = () => { hold = performance.now() + 450; lastY = scrollY; navRun = 0; };
+    addEventListener("resize", holdNav, { passive: true });
+    if (window.visualViewport) visualViewport.addEventListener("resize", holdNav, { passive: true });
     const tickEl = $("[data-tick]"), ring = $(".hb-ring");
     const setTick = s => { if (!tickEl || s === tickNow) return; tickNow = s; if (reduced) { tickEl.textContent = s; return; }
       tickEl.classList.add("out"); setTimeout(() => { tickEl.textContent = s; tickEl.classList.remove("out"); tickEl.classList.add("in"); void tickEl.offsetWidth; tickEl.classList.remove("in"); }, 260); };
     const onScroll = () => { ticking = false; const y = scrollY, h = document.documentElement.scrollHeight - innerHeight;
       prog.style.transform = `scaleX(${h > 0 ? (y / h).toFixed(4) : 0})`;
-      if (Math.abs(y - lastY) > 4) { nav.classList.toggle("hide", y > lastY && y > innerHeight * .8); lastY = y; }
+      const dy = y - lastY; lastY = y;
+      if (dy) {
+        if (y < innerHeight * .8) { navRun = 0; nav.classList.remove("hide"); }
+        else if (performance.now() > hold) { navRun = (dy > 0) === (navRun > 0) ? navRun + dy : dy; if (navRun < -6) nav.classList.remove("hide"); else if (navRun > 36) nav.classList.add("hide"); }
+      }
       let on = -1; secs.forEach((s, k) => { if (s && s.getBoundingClientRect().top < innerHeight * .45) on = k; }); ix.forEach((a, k) => a.classList.toggle("on", k === on));
       // the header says which chapter is open, and how far through the case the reader is
       setTick(on < 0 ? c.client : `${pad(on + 1)} · ${ix[on].textContent}`);
@@ -953,7 +962,7 @@ html.cx-curon,html.cx-curon *{cursor:none!important}
     $$("[data-nextcase]").forEach(b => b.addEventListener("click", () => { try { parent.postMessage({ type: "brandita:next" }, "*"); } catch (_) {} }));
 
     // screenshots open in a lightbox; tap the image to zoom
-    const lb = $(".cx-lb"), lbCap = $("p", lb), lbImg = document.createElement("img"); let from = null;
+    const lb = $(".cx-lb"), lbCap = $("p", lb), lbImg = document.createElement("img"); lbImg.alt = ""; let from = null;
     lbCap.before(lbImg); // created here so the page never ships an image without a source
     const close = () => { if (lb.hidden) return; lb.hidden = true; lbImg.classList.remove("zoom"); from && from.focus(); };
     $$("[data-shot]").forEach(b => b.addEventListener("click", () => { const e = c.evidence[+b.dataset.shot]; from = b;
