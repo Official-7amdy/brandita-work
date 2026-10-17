@@ -52,19 +52,16 @@ SOCIAL = [("LinkedIn", "https://linkedin.com/company/brandita"), ("Instagram", "
           ("Facebook", "https://facebook.com/brandita"), ("TikTok", "https://tiktok.com/@brandita")]
 STORES_URL, CLIENT_URL = "https://claude.ai/artifact/Ny51PSz3Cb51nps8m1j7D6", "https://claude.ai/artifact/6zCn3cMvHCzk9erCcx5T1C"
 
-def footer(stories, studies, book, top="#top", lang=""):
-    """the footer every page uses; the links point within the page where they can"""
-    li = lambda items: "".join(f'<li><a href="{h}"{x}>{l}</a></li>' for l, h, x in items)
+def footer(stories, studies, book, top="#top", lang="", mark="wm_en_white_xl"):
+    """the sign-off every page uses: site links, social, the wordmark at full width, the colophon.
+    No contact details: each page's own call section holds them once."""
     out = ' target="_blank" rel="noopener"'
-    return ('<!-- bf -->\n<footer class="bf">\n  <div class="bf-in">\n    <div class="bf-top">\n'
-            f'      <div class="bf-brand"><img src="{B["wm_en_white"]["uri"]}" alt="Brandita" width="{round(22 * WM_W / WM_H)}" height="22">'
-            '<p>A digital marketing agency in Cairo: brand and creative, performance media, social and community, SEO and content.</p></div>\n'
-            '      <nav class="bf-col" aria-labelledby="bf-w"><h2 id="bf-w">Work</h2><ul>'
-            + li([("Case stories", stories, ""), ("Case studies", studies, ""), ("For online stores", STORES_URL, ""), ("A full client case", CLIENT_URL, "")]) + '</ul></nav>\n'
-            '      <nav class="bf-col" aria-labelledby="bf-c"><h2 id="bf-c">Contact</h2><ul>'
-            + li([("info@brandita.net", "mailto:info@brandita.net", ""), ("WhatsApp", "https://wa.me/201099307190", out), ("Book a call", book, "")]) + '</ul></nav>\n'
-            '      <nav class="bf-col" aria-labelledby="bf-f"><h2 id="bf-f">Follow</h2><ul>' + li([(l, h, out) for l, h in SOCIAL]) + '</ul></nav>\n'
+    links = [("Case stories", stories), ("Case studies", studies), ("For online stores", STORES_URL), ("A full client case", CLIENT_URL)]
+    return ('<!-- bf -->\n<footer class="bf">\n  <div class="bf-in">\n    <div class="bf-row">\n'
+            '      <nav class="bf-nav" aria-label="Site">' + "".join(f'<a href="{h}">{l}</a>' for l, h in links) + '</nav>\n'
+            '      <nav class="bf-social" aria-label="Brandita elsewhere">' + "".join(f'<a href="{h}"{out}>{l}</a>' for l, h in SOCIAL) + '</nav>\n'
             '    </div>\n'
+            f'    <img class="bf-mark" src="{B[mark]["uri"]}" alt="Brandita" width="{B[mark]["w"]}" height="{B[mark]["h"]}" loading="lazy" decoding="async">\n'
             '    <div class="bf-base"><span>© 2026 All rights reserved — Brandita.net | Cairo, Egypt | info@brandita.net</span>'
             f'<span class="bf-meta">{lang}<a href="{top}">Back to top <span aria-hidden="true">↑</span></a></span></div>\n'
             '  </div>\n</footer>\n<!-- /bf -->')

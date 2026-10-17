@@ -88,24 +88,18 @@ R("Every engagement starts the same way: an audit of your ad account and your st
   "كل تعاقد يبدأ بنفس الطريقة: مراجعة لحساب إعلاناتك ومتجرك، وحساب التسريب بعدد الطلبات شهريا، قبل أي عرض.")
 R('data-cursor="Book"><span class="t">Book a free call<small>The audit comes first. The proposal comes after.</small>',
   'data-cursor="احجز"><span class="t">احجز مكالمة مجانية<small>المراجعة أولا، والعرض بعدها.</small>')
-R('<ul class="sheet" aria-label="Contact">', '<ul class="sheet" aria-label="تواصل">')
-R('<span class="k">Email</span>', '<span class="k">البريد</span>')
-R('<span class="k">WhatsApp</span>', '<span class="k">واتساب</span>', 2)
+R('<div class="lines" role="list" aria-label="Direct lines">', '<div class="lines" role="list" aria-label="خطوط مباشرة">')
+R('<span class="k">Write</span>', '<span class="k">اكتب لنا</span>')
+R('<span class="k">WhatsApp</span>', '<span class="k">واتساب</span>')
 R('data-copy="info@brandita.net">Copy</button>', 'data-copy="info@brandita.net">نسخ</button>')
-R('rel="noopener">Message</a>', 'rel="noopener">راسلنا</a>', 2)
+R('href="tel:+201099307190">Call</a>', 'href="tel:+201099307190">اتصل</a>')
 R('<span class="k">Studio</span><span class="v">Cairo, Egypt</span>', '<span class="k">المقر</span><span class="v">القاهرة، مصر</span>')
+R('<span>local time</span>', '<span>بتوقيت القاهرة</span>')
 # the shared footer (header/header.py renders it)
-R("<p>A digital marketing agency in Cairo: brand and creative, performance media, social and community, SEO and content.</p>",
-  "<p>وكالة تسويق رقمي في القاهرة: الهوية والإبداع، الإعلانات المدفوعة، السوشيال ميديا والمجتمع، والسيو والمحتوى.</p>")
-R('<h2 id="bf-w">Work</h2>', '<h2 id="bf-w">الأعمال</h2>')
-R('<li><a href="#reel">Case stories</a></li>', '<li><a href="#reel">قصص الحالات</a></li>')
-R('<li><a href="#all">Case studies</a></li>', '<li><a href="#all">دراسات الحالة</a></li>')
+R('<nav class="bf-nav" aria-label="Site"><a href="#reel">Case stories</a><a href="#all">Case studies</a>', '<nav class="bf-nav" aria-label="الموقع"><a href="#reel">قصص الحالات</a><a href="#all">دراسات الحالة</a>')
 R('Ny51PSz3Cb51nps8m1j7D6">For online stores</a>', 'Ny51PSz3Cb51nps8m1j7D6">للمتاجر الإلكترونية</a>')
 R('6zCn3cMvHCzk9erCcx5T1C">A full client case</a>', '6zCn3cMvHCzk9erCcx5T1C">حالة عميل كاملة</a>')
-R('<h2 id="bf-c">Contact</h2>', '<h2 id="bf-c">تواصل</h2>')
-R('rel="noopener">WhatsApp</a>', 'rel="noopener">واتساب</a>')
-R('<li><a href="#start">Book a call</a></li>', '<li><a href="#start">احجز مكالمة</a></li>')
-R('<h2 id="bf-f">Follow</h2>', '<h2 id="bf-f">تابعنا</h2>')
+R('aria-label="Brandita elsewhere"', 'aria-label="برانديتا على المنصات"')
 R("© 2026 All rights reserved — Brandita.net | Cairo, Egypt | info@brandita.net", "© 2026 جميع الحقوق محفوظة — Brandita.net | القاهرة، مصر | info@brandita.net")
 R(f'<a href="{AR_URL}" lang="ar" hreflang="ar">العربية</a><a href="#reel">', f'<a href="{EN_URL}" lang="en" hreflang="en">English</a><a href="#reel">')
 R('Back to top <span aria-hidden="true">↑</span>', 'العودة للأعلى <span aria-hidden="true">↑</span>')
@@ -313,6 +307,8 @@ R('tx = e.clientX + 170;', 'tx = e.clientX - 170;')
 BR = json.load(open(os.path.join(HERE, "brand", "brand.json"), encoding="utf-8"))
 for tone in ("white", "black"):
     R(BR[f"wm_en_{tone}"]["uri"], BR[f"wm_ar_{tone}"]["uri"], 0)
+R(BR["wm_en_white_xl"]["uri"] + '" alt="Brandita" width="%d" height="%d"' % (BR["wm_en_white_xl"]["w"], BR["wm_en_white_xl"]["h"]),
+  BR["wm_ar_white_xl"]["uri"] + '" alt="برانديتا" width="%d" height="%d"' % (BR["wm_ar_white_xl"]["w"], BR["wm_ar_white_xl"]["h"]))
 AR_W = round(26 * BR["wm_ar_white"]["w"] / BR["wm_ar_white"]["h"])
 t = re.sub(r'(class="wm [bw]" src="[^"]+" alt="[^"]*") width="\d+" height="\d+"', lambda m: m.group(1) + f' width="{AR_W}" height="26"', t)
 R('alt="Brandita"', 'alt="برانديتا"', 0)
@@ -328,7 +324,7 @@ RTL_CSS = r'''
    for Arabic ascenders, and every physical side mirrored ─────────────────── */
 html[dir=rtl] body{font-family:"Cairo","Inter",system-ui,sans-serif}
 html[dir=rtl] .bh-logo{--bh-wm-w:69px;--bh-wm-h:24px}
-html[dir=rtl] .bf .bf-brand img{height:28px}
+html[dir=rtl] .bf .bf-mark{width:min(100%,640px);margin-inline-end:auto}
 html[dir=rtl] body *{letter-spacing:0!important}
 html[dir=rtl] :is(h1,h2,h3,.big,.mid,.ix-t,.ix-c b,.missc b,.pc .ch){line-height:1.3}
 html[dir=rtl] :is(.chaps button::after,.segs b,.cbr .tr i,.hk .tr i,.qrow .tr i,.cmp .tr i,.agl button::after,.mj-line i){transform-origin:100% 50%}

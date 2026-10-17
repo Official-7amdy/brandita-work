@@ -49,6 +49,11 @@ for key, f in {"wm_en_black": "logos/png/Logos-01.png", "wm_en_white": "logos/pn
     im = height(trim(Image.open(os.path.join(SRC, f)).convert("RGBA")), 72)
     assets[key] = {"uri": uri(save(im, key.replace("_", "-") + ".png")), "w": im.width, "h": im.height}
 
+# the oversized sign-off mark in the footer, sharp at full page width
+for key, f in {"wm_en_white_xl": "logos/png/Logos-02.png", "wm_ar_white_xl": "logos/png/Logos-04.png"}.items():
+    im = height(trim(Image.open(os.path.join(SRC, f)).convert("RGBA")), 300)
+    assets[key] = {"uri": uri(save(im, key.replace("_", "-") + ".png")), "w": im.width, "h": im.height}
+
 mono_sq = Image.open(os.path.join(SRC, "B Logo.png")).convert("RGB")
 small = mono_sq.resize((1125, 1125), Image.LANCZOS)  # lift at a working size, then scale
 mono = trim(lift(small))

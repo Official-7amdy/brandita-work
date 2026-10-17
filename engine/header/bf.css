@@ -1,26 +1,30 @@
-/* ── Brandita footer (bf) — one quiet footer on every page, synced by
-   header.py. Ink ground whatever the page theme; muted links that only
-   brighten on hover; nothing here competes with the call above it. ────── */
-.bf{--bf-fg:#F5F4F1;--bf-mute:rgba(245,244,241,.56);--bf-link:rgba(245,244,241,.78);--bf-rule:rgba(245,244,241,.1);
-  background:#131313;color:var(--bf-fg);border-top:1px solid var(--bf-rule);font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  padding:clamp(48px,6vw,72px) clamp(16px,4vw,64px) calc(24px + env(safe-area-inset-bottom,0px))}
+/* ── Brandita footer (bf) — the sign-off, synced by header.py. No contact
+   details here: the page's own call section holds them, once. Site links and
+   social on one quiet line, then the wordmark set full width, rising into
+   place as the reader arrives, and the colophon under it. ─────────────── */
+.bf{--bf-fg:#F5F4F1;--bf-mute:rgba(245,244,241,.5);--bf-link:rgba(245,244,241,.74);--bf-rule:rgba(245,244,241,.1);
+  background:#131313;color:var(--bf-fg);font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  padding:clamp(56px,7vw,96px) clamp(16px,4vw,64px) calc(22px + env(safe-area-inset-bottom,0px));overflow:hidden}
 .bf .bf-in{max-width:1240px;margin-inline:auto}
-.bf .bf-top{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(0,1fr));gap:clamp(28px,4vw,64px)}
-.bf .bf-brand img{display:block;width:auto;height:22px}
-.bf .bf-brand p{margin:16px 0 0;max-width:34ch;font-size:14px;line-height:1.6;color:var(--bf-mute)}
-.bf .bf-col h2{margin:0 0 14px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--bf-mute)}
-.bf .bf-col ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
-.bf .bf-col a{font-size:14px;font-weight:500;color:var(--bf-link);text-decoration:none;text-underline-offset:4px;transition:color .25s ease}
-@media (hover:hover) and (pointer:fine){.bf .bf-col a:hover,.bf .bf-base a:hover{color:var(--bf-fg);text-decoration:underline;text-decoration-thickness:1px}}
-.bf .bf-base{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;margin-top:clamp(40px,5vw,64px);padding-top:20px;border-top:1px solid var(--bf-rule);font-size:12.5px;color:var(--bf-mute)}
-.bf .bf-meta{display:flex;align-items:center;gap:20px}
-.bf .bf-base a{color:var(--bf-link);text-decoration:none;font-weight:500;padding-block:8px}
-.bf .bf-base a[lang=ar]{font-family:"Cairo",sans-serif;font-size:13.5px}
+.bf .bf-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 40px;padding-top:22px;border-top:1px solid var(--bf-rule)}
+.bf nav{display:flex;flex-wrap:wrap;gap:6px 28px}
+.bf a{color:var(--bf-link);text-decoration:none;font-size:14px;font-weight:500;padding-block:8px;text-underline-offset:5px;transition:color .25s ease}
+@media (hover:hover) and (pointer:fine){.bf a:hover{color:var(--bf-fg);text-decoration:underline;text-decoration-thickness:1px}}
 .bf a:focus-visible{outline:2px solid #D63233;outline-offset:3px;border-radius:4px}
-[dir=rtl] .bf{font-family:"Cairo","Inter",sans-serif}
-[dir=rtl] .bf .bf-col h2{letter-spacing:0}
-@media (max-width:860px){
-  .bf .bf-top{grid-template-columns:1fr 1fr;row-gap:36px}
-  .bf .bf-brand{grid-column:1/-1}
+.bf .bf-social a{color:var(--bf-mute)}
+.bf .bf-mark{display:block;width:100%;height:auto;margin-top:clamp(48px,7vw,104px)}
+@supports (animation-timeline:view()){
+  .bf .bf-mark{animation:bf-rise linear both;animation-timeline:view();animation-range:entry 0% cover 34%}
+  @keyframes bf-rise{from{clip-path:inset(0 0 100% 0);transform:translateY(18%)}to{clip-path:inset(0 0 0 0);transform:none}}
 }
-@media (max-width:420px){.bf .bf-base{flex-direction:column;align-items:flex-start}}
+.bf .bf-base{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px;margin-top:clamp(22px,3vw,36px);font-size:12.5px;color:var(--bf-mute)}
+.bf .bf-meta{display:flex;align-items:center;gap:22px}
+.bf .bf-base a{font-size:12.5px}
+.bf a[lang=ar]{font-family:"Cairo",sans-serif;font-size:13.5px}
+[dir=rtl] .bf{font-family:"Cairo","Inter",sans-serif}
+@media (max-width:640px){
+  .bf .bf-row{flex-direction:column;align-items:flex-start;gap:10px}
+  .bf .bf-nav{display:grid;grid-template-columns:1fr 1fr;column-gap:20px;width:100%}
+  .bf .bf-base{flex-direction:column;align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){.bf .bf-mark{animation:none}}
