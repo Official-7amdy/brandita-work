@@ -612,14 +612,19 @@ html.cur,html.cur *{cursor:none!important}
 .lb button{position:absolute;top:18px;right:18px;width:46px;height:46px;border-radius:50%;background:#fff;color:#111;font-size:22px;font-weight:700}
 
 /* ── the index ─────────────────────────────────────────────────────────── */
-/* the stage melts into the paper: an eased gradient (no banding), a little grain, and the
-   client's colour left as an afterglow at the top of the case list */
-@property --glow{syntax:"<color>";inherits:true;initial-value:#E8A33D}
-:root{transition:--glow 1.4s cubic-bezier(.23,1,.32,1)}
-.stage .seam{position:relative;z-index:1;height:clamp(160px,26vh,300px);pointer-events:none;background:linear-gradient(180deg,rgba(238,237,237,0) 0%,rgba(238,237,237,0.013) 8.1%,rgba(238,237,237,0.049) 15.5%,rgba(238,237,237,0.104) 22.5%,rgba(238,237,237,0.175) 29%,rgba(238,237,237,0.259) 35.3%,rgba(238,237,237,0.352) 41.2%,rgba(238,237,237,0.45) 47.1%,rgba(238,237,237,0.55) 52.9%,rgba(238,237,237,0.648) 58.8%,rgba(238,237,237,0.741) 64.7%,rgba(238,237,237,0.825) 71%,rgba(238,237,237,0.896) 77.5%,rgba(238,237,237,0.951) 84.5%,rgba(238,237,237,0.987) 91.9%,rgba(238,237,237,1) 100%)}
-.stage .seam::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;opacity:.09;mix-blend-mode:multiply;-webkit-mask:linear-gradient(transparent,#000 35%,#000 65%,transparent);mask:linear-gradient(transparent,#000 35%,#000 65%,transparent)}
-.ix::before{content:"";position:absolute;inset:0 0 auto;height:min(64vh,560px);pointer-events:none;background:radial-gradient(72% 100% at 50% 0%,color-mix(in srgb,var(--glow) 20%,transparent),color-mix(in srgb,var(--glow) 6%,transparent) 45%,transparent 75%)}
-.ix>.wrap{position:relative}
+/* the stage melts into the paper through an eased gradient (no banding, a little grain), and a
+   brand chapter mark draws itself in: a hairline opening from the centre, the red dot at its heart */
+.stage .seam{position:relative;z-index:1;height:clamp(170px,28vh,320px);pointer-events:none;background:linear-gradient(180deg,rgba(238,237,237,0) 0%,rgba(238,237,237,0.013) 8.1%,rgba(238,237,237,0.049) 15.5%,rgba(238,237,237,0.104) 22.5%,rgba(238,237,237,0.175) 29%,rgba(238,237,237,0.259) 35.3%,rgba(238,237,237,0.352) 41.2%,rgba(238,237,237,0.45) 47.1%,rgba(238,237,237,0.55) 52.9%,rgba(238,237,237,0.648) 58.8%,rgba(238,237,237,0.741) 64.7%,rgba(238,237,237,0.825) 71%,rgba(238,237,237,0.896) 77.5%,rgba(238,237,237,0.951) 84.5%,rgba(238,237,237,0.987) 91.9%,rgba(238,237,237,1) 100%)}
+.stage .seam::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;opacity:.08;mix-blend-mode:multiply;-webkit-mask:linear-gradient(transparent,#000 35%,#000 65%,transparent);mask:linear-gradient(transparent,#000 35%,#000 65%,transparent)}
+.stage .seam::before{content:"";position:absolute;left:var(--gut);right:var(--gut);bottom:clamp(26px,3.4vw,44px);height:1px;background:linear-gradient(90deg,transparent,rgba(19,19,19,.18) 22%,rgba(19,19,19,.18) 78%,transparent)}
+.stage .seam i{position:absolute;left:50%;bottom:clamp(26px,3.4vw,44px);width:7px;height:7px;margin:0 0 -3px -3.5px;border-radius:50%;background:#D63233}
+@supports (animation-timeline:view()){
+  .stage .seam::before{animation:seam-draw linear both;animation-timeline:view();animation-range:entry 40% cover 60%}
+  .stage .seam i{animation:seam-dot linear both;animation-timeline:view();animation-range:entry 30% cover 45%}
+  @keyframes seam-draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  @keyframes seam-dot{from{transform:scale(0)}to{transform:scale(1)}}
+}
+@media (prefers-reduced-motion:reduce){.stage .seam::before,.stage .seam i{animation:none}}
 .ix{position:relative;background:var(--paper);color:var(--p-fg);padding-block:clamp(90px,12vw,170px);--fg:var(--p-fg);--mute:var(--p-mute);--rule:var(--p-rule)}
 .ix .label::before{background:var(--red)}
 .ix .h2 em{color:var(--red)}
@@ -879,7 +884,7 @@ window.BH = window.BH_init();
       <button class="opn" type="button" data-open>Open the full case <span aria-hidden="true">↗</span></button>
     </div>
   </div>
-  <div class="seam" aria-hidden="true"></div>
+  <div class="seam" aria-hidden="true"><i></i></div>
 </section>
 
 <!-- ── the index: every file, one line each ───────────────────────────── -->
@@ -1375,7 +1380,7 @@ window.BH = window.BH_init();
   function paint(j, animate) {
     const c = CASES[j], [bg, fg, ac, ai] = PAL[c.id];
     // the stage floods with the client's accent; the story card keeps the client's ground colour
-    const tone = () => { stage.style.setProperty("--c-fg", ai); stage.style.setProperty("--c-ac", bg); stage.classList.toggle("lite", lum(ac) > .4); document.documentElement.style.setProperty("--glow", ac); hbAc = ac; hbCase = j; navTone(); };
+    const tone = () => { stage.style.setProperty("--c-fg", ai); stage.style.setProperty("--c-ac", bg); stage.classList.toggle("lite", lum(ac) > .4); hbAc = ac; hbCase = j; navTone(); };
     const text = () => {
       $("#sNo").textContent = `${pad(j + 1)} / ${pad(N)}`; $("#sWho").textContent = `${c.client} · ${c.line} · ${c.real ? "Real client" : "Sample"}`;
       $("#sTitle").textContent = c.title; $("#sMetric").textContent = c.metric; $("#sLabel").textContent = c.mlabel; $("#backdrop").textContent = c.metric;

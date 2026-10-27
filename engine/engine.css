@@ -568,12 +568,12 @@ html.cx-curon,html.cx-curon *{cursor:none!important}
 
 /* embedded in the stories page: no chrome, room for the action bar */
 .cx.embed .bh,.cx.embed .cx-index{display:none}
-/* ambient light: two pools of the client's colour drift as the reader goes down the case
-   (--sp is scroll progress); blurred, grained, felt more than seen */
+/* ambient light: a soft bone "studio light" from above and a faint pool of the client's colour,
+   both drifting with reading progress (--sp). Eased multi-stop gradients, no blur: no rings, no banding */
 .cx{position:relative;isolation:isolate}
-.cx::before{content:"";position:fixed;inset:-12%;z-index:-1;pointer-events:none;filter:blur(18px);
-  background:radial-gradient(40% 36% at calc(16% + var(--sp,0) * 60%) calc(14% + var(--sp,0) * 34%),color-mix(in srgb,var(--ac) 22%,transparent),transparent 70%),
-    radial-gradient(36% 32% at calc(88% - var(--sp,0) * 50%) calc(82% - var(--sp,0) * 26%),color-mix(in srgb,var(--ac) 13%,transparent),transparent 70%)}
+.cx::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse 70% 55% at calc(30% + var(--sp,0) * 40%) -8%,rgba(245,244,241,.075),rgba(245,244,241,.045) 30%,rgba(245,244,241,.018) 55%,rgba(245,244,241,.005) 72%,transparent 85%),
+    radial-gradient(ellipse 55% 48% at calc(85% - var(--sp,0) * 55%) calc(100% - var(--sp,0) * 30%),color-mix(in srgb,var(--ac) 14%,transparent),color-mix(in srgb,var(--ac) 8%,transparent) 30%,color-mix(in srgb,var(--ac) 3%,transparent) 55%,color-mix(in srgb,var(--ac) 1%,transparent) 72%,transparent 85%)}
 .cx::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;opacity:.06;mix-blend-mode:soft-light}
 .cx .cx-index{transition:opacity .4s ease}
 .cx.at-end .cx-index{opacity:0;pointer-events:none}
