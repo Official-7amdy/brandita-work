@@ -11,4 +11,4 @@
 :HL["/brandita-work/_next/static/media/Inter_900-s.p.2o3x46rwzw4om.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":{"n":"lang","t":"d","k":"ar","s":[]},"h":65648,"c":"$Q2"}]]
-0:{"b":"6QDwJsW0oCZ_jGS7u9wGG","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
+0:{"b":"nILkIi-JxThfPbItAqo_c","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
