@@ -1,4 +1,4 @@
-:HL["/brandita-work/_next/static/chunks/2ee7xmzfjl9ki.css","style"]
+:HL["/brandita-work/_next/static/chunks/14dyb9ze5acvn.css","style"]
 :HL["/brandita-work/_next/static/chunks/0k_olqq5f1dak.css","style"]
 :HL["/brandita-work/_next/static/media/Cairo_600-s.p.40o-l4y_efmhl.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/brandita-work/_next/static/media/Cairo_700-s.p.1ev63m9n6frch.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
@@ -13,4 +13,4 @@
 3:[["children",{"s":{"n":"slug","t":"d","k":"media-production","s":[]},"h":65632,"c":"$Q4"}]]
 2:[["children",{"s":"services","h":131168,"c":"$Q3"}]]
 1:[["children",{"s":{"n":"lang","t":"d","k":"ar","s":[]},"h":196720,"c":"$Q2"}]]
-0:{"b":"7wZHM7KJjCeGNP3ticzkh","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
+0:{"b":"71WfUsq9SE613Nimb_HMD","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
