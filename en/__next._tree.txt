@@ -12,4 +12,4 @@
 :HL["/brandita-work/_next/static/chunks/0xlthpf9hw4xu.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":{"n":"lang","t":"d","k":"en","s":[]},"h":65648,"c":"$Q2"}]]
-0:{"b":"CAtfHC0fcylBgAk0sO0jx","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
+0:{"b":"zqSjZToINLJsG9Sh6EGfL","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
