@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://official-7amdy.github.io/brandita-work/sitemap.xml
