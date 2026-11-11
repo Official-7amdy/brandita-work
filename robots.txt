@@ -1,4 +1,6 @@
 User-Agent: *
 Allow: /
+Disallow: /brandita-work/en/404/
+Disallow: /brandita-work/ar/404/
 
 Sitemap: https://official-7amdy.github.io/brandita-work/sitemap.xml
