@@ -1,0 +1,64 @@
+# Brandita on Hostinger (LiteSpeed, Apache-compatible). Copied into out/ by scripts/hostinger.mjs;
+# edit it here, not in out/. The site is a static export at the domain's root; only /api/* runs PHP.
+
+Options -Indexes -MultiViews
+DirectoryIndex index.html index.php
+DirectorySlash On
+AddDefaultCharset utf-8
+ErrorDocument 404 /404.html
+
+AddType font/woff2 .woff2
+AddType application/manifest+json .webmanifest
+AddCharset utf-8 .html .txt .css .js .json .xml .webmanifest
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # nothing starting with a dot is served (the Git deploy leaves .git/ in public_html), except /.well-known/
+  RewriteRule (^|/)\.(?!well-known(/|$)) - [R=404,L]
+  # the deploy repository's own notes
+  RewriteRule ^README\.md$ - [R=404,L,NC]
+
+  # https, on the bare domain
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+
+  # the forms post to /api/contact: answered by PHP in place (a folder redirect would turn the POST into a GET)
+  RewriteRule ^api/(contact|newsletter)/?$ api/index.php?route=$1 [L,QSA]
+
+  # the root: Arabic readers to /ar/, everyone else to /en/ (index.html does the same where rewrites are off)
+  RewriteCond %{HTTP:Accept-Language} (^|,)\s*ar([-_;,]|$) [NC]
+  RewriteRule ^$ /ar/ [R=302,L,E=LANGPICK:1]
+  RewriteRule ^$ /en/ [R=302,L,E=LANGPICK:1]
+
+  # the previous brandita.net site's addresses, to the same pages here
+  RewriteRule ^(about|services|case-studies|contact|privacy|terms)\.html$ /en/$1/ [R=301,L,NC]
+  RewriteRule ^(services|case-studies)/([a-z0-9-]+)\.html$ /en/$1/$2/ [R=301,L,NC]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  # browsers only heed this over https, which every request is redirected to
+  Header always set Strict-Transport-Security "max-age=31536000"
+  # the root's redirect depends on the reader's language
+  Header always merge Vary "Accept-Language" env=LANGPICK
+
+  # pages and their navigation data change with every deploy: always check for a newer copy
+  <FilesMatch "\.(html|txt|xml|webmanifest)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  # pictures, video and the Labs fonts keep their names across deploys: a week
+  <FilesMatch "\.(png|jpe?g|webp|avif|gif|svg|ico|mp4|webm)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/javascript application/json application/xml application/manifest+json image/svg+xml
+</IfModule>

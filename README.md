@@ -1,17 +1,13 @@
-# Brandita — work
+# Brandita — the built site
 
-Case studies for Brandita for Digital Services, Cairo.
-Live: https://official-7amdy.github.io/brandita-work/
+The live site is **https://brandita.net/**, hosted on Hostinger: hPanel → Git deploys this repo's `main`
+branch into `public_html`. This repo holds the built site only; the source is the private Next.js app
+`Official-7amdy/brandita-web`, built with `npm run build:hostinger` and copied here.
 
-This repo is the published build only. The source is the Next.js app in
-`Brandita/web` (React, static export); build it with
-`BASE_PATH=/brandita-work npm run build` and copy `web/out/` here.
+- `.htaccess`, `ar/.htaccess`, `_next/static/.htaccess`: https, language redirect, the forms' route,
+  the old site's addresses, 404 pages, caching.
+- `api/index.php`: the consultation form's email. Its settings (`brandita-config.php`) live outside
+  `public_html` on the server, never in this repo.
 
-## Pages
-- `index.html` — sends readers to `en/` or `ar/` by browser language
-- `en/`, `ar/` — the case stories and the case study. A story playing on one case: `en/#play-<id>`
-- `en/work/<id>/`, `ar/work/<id>/` — the full case
-- The old addresses (`case-studies.html`, `case-<id>.html`, `for-stores.html`, `client-case.html`) forward to the new pages
-
-Only Lazoomi is published: a real client, with written approval. Screenshots
-are redacted before they reach this repo; the originals stay private.
+The old GitHub Pages address (official-7amdy.github.io/brandita-work) forwards every page to the same
+page on brandita.net.
