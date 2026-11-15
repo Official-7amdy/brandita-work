@@ -1,0 +1,4 @@
+# named by content hash: never changes under the same name
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</IfModule>
