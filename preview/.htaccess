@@ -6,7 +6,8 @@ Require valid-user
 
 # pictures, fonts and video are the live site's own (already public): browsers fetch CSS masks without the login
 <FilesMatch "\.(png|jpe?g|webp|avif|gif|svg|ico|woff2?|mp4|webm)$">
-  Require all granted
+  Satisfy Any
+  Allow from all
 </FilesMatch>
 
 <IfModule mod_headers.c>
