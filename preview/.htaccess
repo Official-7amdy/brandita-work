@@ -4,6 +4,11 @@ AuthName "Brandita preview"
 AuthUserFile /home/u644307927/domains/brandita.net/public_html/preview/.htpasswd
 Require valid-user
 
+# pictures, fonts and video are the live site's own (already public): browsers fetch CSS masks without the login
+<FilesMatch "\.(png|jpe?g|webp|avif|gif|svg|ico|woff2?|mp4|webm)$">
+  Require all granted
+</FilesMatch>
+
 <IfModule mod_headers.c>
   Header always set X-Robots-Tag "noindex, nofollow"
 </IfModule>
