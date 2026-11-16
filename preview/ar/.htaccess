@@ -1,2 +1,0 @@
-# a missing address under /ar/ gets the Arabic not-found page (the root .htaccess still applies here)
-ErrorDocument 404 /ar/404.html
