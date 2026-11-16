@@ -43,6 +43,11 @@ AddCharset utf-8 .html .txt .css .js .json .xml .webmanifest
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
   RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
 
+  # pictures: the WebP twin (written by the build) for browsers that accept it, at the same address
+  RewriteCond %{HTTP_ACCEPT} image/webp
+  RewriteCond %{REQUEST_FILENAME}.webp -f
+  RewriteRule ^((?:img|brand)/.+\.(?:png|jpe?g))$ $1.webp [T=image/webp,E=WEBP:1,L]
+
   # the forms post to /api/contact: answered by PHP in place (a folder redirect would turn the POST into a GET)
   RewriteRule ^api/(contact|newsletter)/?$ api/index.php?route=$1 [L,QSA]
 
@@ -62,6 +67,9 @@ AddCharset utf-8 .html .txt .css .js .json .xml .webmanifest
   Header always set X-Frame-Options "SAMEORIGIN"
   # browsers only heed this over https, which every request is redirected to
   Header always set Strict-Transport-Security "max-age=31536000"
+  # a picture's answer depends on whether the browser takes WebP
+  Header append Vary Accept env=REDIRECT_WEBP
+  Header append Vary Accept env=WEBP
   # the root's redirect depends on the reader's language
   Header always merge Vary "Accept-Language" env=LANGPICK
 
